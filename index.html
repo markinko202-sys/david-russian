@@ -526,9 +526,16 @@ const isPhr=e=>e.kind=='phrase';
 const LBTN=x=>`<div class="row" style="justify-content:center;margin:8px 0"><button class="btn" data-spk="${esc(x)}">${SPK} Listen</button></div>`;
 const listenGen=(items,n)=>()=>shuffle(items).slice(0,n).map(x=>({p:LBTN(x.ru)+`<div class="q2">What does it mean?</div>`,ok:x.en,bad:shuffle(uniq(items.map(y=>y.en)).filter(e=>e!=x.en)).slice(0,2)}));
 const meanGen=(items,n)=>()=>shuffle(items).slice(0,n).map(x=>({p:`<div class="bigq" style="font-size:26px">${x.en}</div><div class="q2">How do you say it in Russian?</div>`,ok:S(x.ru),bad:shuffle(uniq(items.map(y=>S(y.ru))).filter(r=>r!=S(x.ru))).slice(0,2),say:x.ru}));
-const picGen=(items,n)=>()=>{const cn={};items.forEach(e=>{if(e.img)cn[e.img]=(cn[e.img]||0)+1});const w=items.filter(e=>e.img&&cn[e.img]==1);return shuffle(w).slice(0,n).map(x=>({p:`<div class="dr" style="width:110px;height:110px;margin:6px auto">${x.img}</div><div class="q2">What is it in Russian?</div>`,ok:S(x.ru),bad:shuffle(uniq(w.map(y=>S(y.ru))).filter(r=>r!=S(x.ru))).slice(0,2),say:x.ru}))};
+const picGen=(items,n)=>()=>{const cn={};items.forEach(e=>{if(e.img)cn[e.img]=(cn[e.img]||0)+1});const w=items.filter(e=>e.img&&cn[e.img]==1);return shuffle(w).slice(0,n).map(x=>({p:`<div class="dr" style="width:110px;height:110px;margin:6px auto">${x.img}</div><div class="q2">What is it in Russian?</div><div class="row" style="justify-content:center;margin:0 0 8px"><button class="btn ghost sm" onclick="this.style.display='none';this.nextElementSibling.style.display='inline'">Hint</button><span style="display:none;font-weight:800;color:var(--rose2)">${x.en}</span></div>`,ok:S(x.ru),bad:shuffle(uniq(w.map(y=>S(y.ru))).filter(r=>r!=S(x.ru))).slice(0,2),say:x.ru}))};
 const pairsOf=(items,n)=>{const s=new Set();return shuffle(items).filter(x=>{const k=x.en.toLowerCase();if(s.has(k))return false;s.add(k);return true}).slice(0,n).map(x=>[x.ru,x.en])};
-const buildOf=(items,n)=>shuffle(items.filter(x=>{const w=S(x.ru).replace(/[…?!.,]/g,'').trim().split(/\s+/);return w.length>=2&&w.length<=6})).slice(0,n).map(x=>[x.ru,x.en,'']);
+const SWP={'ем':['ешь','пью'],'ешь':['ем','пьёшь'],'ест':['пьёт','ем'],'пью':['ем','пьёшь'],'пьёшь':['пью','ешь'],'люблю':['любишь','хочу'],'любишь':['люблю','любит'],'мой':['моя','моё'],'моя':['мой','мои'],'моё':['мой','моя'],'мои':['моя','мой'],'вкусный':['вкусная','вкусное'],'вкусная':['вкусный','вкусное'],'вкусное':['вкусный','вкусная'],'он':['она','оно'],'она':['он','оно'],'есть':['ест','нет'],'нет':['не','есть'],'не':['нет','ни'],'на':['в','у'],'в':['на','у'],'у':['в','на'],'и':['а','но'],'а':['и','но'],'хочу':['люблю','ем'],'живу':['живёшь','работаю'],'работаю':['живу','учусь']};
+const flipEnd=w=>{if(/ся$/.test(w.replace(/\u0301/g,'')))return null;const m=w.match(/^(.*)([ауюя])(\u0301?)$/);if(!m||w.length<4)return null;const o={'у':'а','а':'у','ю':'я','я':'ю'};return m[1]+o[m[2]]+m[3]};
+const mkExtras=(ru,pool)=>{const tg=S(ru).replace(/[…?!.,]/g,'').trim().split(/\s+/),low=tg.map(w=>w.toLowerCase().replace(/\u0301/g,''));const ex=[];
+ tg.forEach((w,i)=>{const k=low[i];if(SWP[k])ex.push(S(SWP[k][Math.floor(Math.random()*2)]));const f=flipEnd(w);if(f&&f!=w)ex.push(f)});
+ const others=shuffle(uniq(pool.flatMap(y=>S(y.ru).replace(/[…?!.,]/g,'').trim().split(/\s+/)))).filter(w=>w.length>1&&!low.includes(w.toLowerCase().replace(/\u0301/g,'')));
+ const out=uniq(ex).filter(w=>!tg.includes(w));const need=Math.max(3,5-out.length);
+ return shuffle(out).slice(0,2).concat(others.slice(0,need)).slice(0,4).map(w=>w[0]=='Я'&&w.length==1?w:w[0].toLowerCase()+w.slice(1))};
+const buildOf=(items,n)=>shuffle(items.filter(x=>{const w=S(x.ru).replace(/[…?!.,]/g,'').trim().split(/\s+/);return w.length>=2&&w.length<=6})).slice(0,n).map(x=>[x.ru,x.en,'',mkExtras(x.ru,items)]);
 const Lr=(a,b)=>DICT.filter(e=>e.l>=a&&e.l<=b),Wd=a=>a.filter(e=>!isPhr(e)),Ph=a=>a.filter(isPhr),Pw=a=>a.filter(e=>e.img&&!isPhr(e));
 const GN=[['суп','soup','м'],['чай','tea','м'],['сок','juice','м'],['сыр','cheese','м'],['хлеб','bread','м'],['торт','cake','м'],['салат','salad','м'],['банан','banana','м'],['ко́фе','coffee','м'],['ры́ба','fish','ж'],['пи́цца','pizza','ж'],['ку́рица','chicken','ж'],['вода́','water','ж'],['карто́шка','potato','ж'],['молоко́','milk','с'],['мя́со','meat','с'],['яйцо́','egg','с'],['я́блоко','apple','с']];
 const genderGen=n=>()=>shuffle(GN).slice(0,n).map(x=>({p:`<div class="bigq">${S(x[0])}</div><div class="q2">${x[1]}</div><div class="q2">Which gender? <b>м</b> masculine · <b>ж</b> feminine · <b>с</b> neuter</div>`,ok:x[2],bad:['м','ж','с'].filter(g=>g!=x[2]),say:x[0]}));
@@ -550,16 +557,14 @@ const HW=[
   {t:'mcq',title:'What number is it?',help:'Look at the number and choose the Russian word.',gen:picGen(Pw(L2),12)},
   {t:'mcq',title:'Listen and choose (numbers)',help:'Press the speaker, then choose the number.',gen:listenGen(Wd(L2).filter(e=>/^\d+$/.test(e.en)),10)},
   {t:'mcq',title:'How do you say it? (numbers)',gen:meanGen(Wd(L2),10)},
-  {t:'build',title:'Build the phrase',items:buildOf(L1.concat(L2),6)},
-  chk(3,'«Меня́ зову́т Дэ́вид.» · «Я из Ирла́ндии.» · «Мне семна́дцать лет.»')]},
+  {t:'build',title:'Build the phrase',items:buildOf(L1.concat(L2),6)},]},
  {id:'h2',title:'Homework 2',zh:'',sub:'Lessons 3 and 4: brothers, sisters, friends and names. About 15 minutes.',tasks:[
   {t:'mcq',title:'What is it? (family)',gen:picGen(Pw(L34),12)},
   {t:'mcq',title:'Listen and choose',help:'Press the speaker, then choose the meaning.',gen:listenGen(L34,12)},
   {t:'mcq',title:'How do you say it?',gen:meanGen(Ph(L34),10)},
   {t:'match',title:'Match the phrases (1)',pairs:pairsOf(Ph(Lr(3,3)),8)},
   {t:'match',title:'Match the phrases (2)',pairs:pairsOf(Ph(Lr(4,4)),8)},
-  {t:'build',title:'Build the sentence',items:buildOf(L34,7)},
-  chk(3,'«У меня́ есть ста́ршая сестра́.» · «Как его́ зову́т?» · «Мою́ ма́му зову́т А́нна.»')]},
+  {t:'build',title:'Build the sentence',items:buildOf(L34,7)},]},
  {id:'h3',title:'Homework 3',zh:'',sub:'Lessons 5 and 6: live, work, study, love, play, read, listen, watch. About 20 minutes.',tasks:[
   {t:'mcq',title:'What is it?',gen:picGen(Pw(L56),14)},
   {t:'mcq',title:'Listen and choose (1)',help:'Press the speaker, then choose the meaning.',gen:listenGen(L56,12)},
@@ -567,15 +572,13 @@ const HW=[
   {t:'match',title:'Match the sentences (1)',pairs:pairsOf(Ph(Lr(5,5)),8)},
   {t:'match',title:'Match the sentences (2)',pairs:pairsOf(Ph(Lr(6,6)),8)},
   {t:'mcq',title:'Listen and choose (2)',help:'Press the speaker, then choose the meaning.',gen:listenGen(Ph(L56),10)},
-  {t:'build',title:'Build the sentence',items:buildOf(L56,8)},
-  chk(3,'«Я люблю́ игра́ть в футбо́л.» · «Я слу́шаю му́зыку.» · «Я никогда́ не смотрю́ фи́льмы но́чью.»')]},
+  {t:'build',title:'Build the sentence',items:buildOf(L56,8)},]},
  {id:'h4',title:'Homework 4',zh:'',sub:'Lessons 7 and 8: genders, I do not like, I love to eat, my home. About 15 minutes.',tasks:[
   {t:'mcq',title:'What is it?',gen:picGen(Pw(L78),10)},
   {t:'mcq',title:'Listen and choose',help:'Press the speaker, then choose the meaning.',gen:listenGen(L78,12)},
   {t:'mcq',title:'How do you say it?',gen:meanGen(Ph(L78),10)},
   {t:'match',title:'Match the sentences',pairs:pairsOf(Ph(L78),8)},
-  {t:'build',title:'Build the sentence',items:buildOf(L78,6)},
-  chk(3,'«Мне не нра́вится ку́рица.» · «Я люблю́ есть.» · «Я живу́ в большо́м до́ме.»')]},
+  {t:'build',title:'Build the sentence',items:buildOf(L78,6)},]},
  {id:'h5',title:'BIG DRILL · lessons 1–8',zh:'',sub:'Everything from lessons 1 to 8 in one long drill. About 35 minutes.',tasks:[
   {t:'mcq',title:'What is it? (all pictured words)',help:'Numbers, family, verbs, places and food together.',gen:picGen(Pw(Lr(1,8)),25)},
   {t:'mcq',title:'Listen and choose (words)',help:'Press the speaker, then choose the meaning.',gen:listenGen(Wd(Lr(1,8)),20)},
@@ -587,8 +590,7 @@ const HW=[
   {t:'match',title:'Match: lessons 7–8',pairs:pairsOf(L78,8)},
   {t:'mcq',title:'Which gender?',gen:genderGen(10)},
   {t:'build',title:'Build the sentence (1)',items:buildOf(Lr(1,4),8)},
-  {t:'build',title:'Build the sentence (2)',items:buildOf(Lr(5,8),8)},
-  chk(5,'«Здра́вствуйте!» · «Меня́ зову́т Дэ́вид.» · «У меня́ есть брат.» · «Я люблю́ слу́шать му́зыку.» · «Я ем ку́рицу.»')]},
+  {t:'build',title:'Build the sentence (2)',items:buildOf(Lr(5,8),8)},]},
  {id:'h6',title:'Homework 6 · food, drinks, meals',zh:'',sub:'Lesson 9: every food and drink word, я ем, я пью, parts of the day, meals, вкусный and polite phrases. Take your time. About 35 minutes.',tasks:[
   {t:'mcq',title:'What is it? (food and drinks)',help:'Look at the picture and choose the Russian word.',gen:picGen(Pw(L9),20)},
   {t:'mcq',title:'Listen and choose (words)',help:'Press the speaker, then choose the meaning.',gen:listenGen(Wd(L9),14)},
@@ -603,8 +605,7 @@ const HW=[
   {t:'mcq',title:'How do you say it? (sentences)',gen:meanGen(Ph(L9),14)},
   {t:'match',title:'Match the sentences',pairs:pairsOf(Ph(L9),8)},
   {t:'build',title:'Build the sentence (1)',items:buildOf(L9,8)},
-  {t:'build',title:'Build the sentence (2)',items:buildOf(L9,8)},
-  chk(5,'«Я ем на за́втрак хлеб.» · «У́тром я пью ко́фе.» · «Я не о́чень люблю́ пить чай.» · «Э́то пи́цца. Она́ вку́сная.» · «Прия́тного аппети́та!»')]}
+  {t:'build',title:'Build the sentence (2)',items:buildOf(L9,8)},]}
 ];
 function drawHw(){
  const hw=store.get('hw',{});
@@ -643,7 +644,7 @@ function openHw(hi){
   if(t.t=='mcq'){mcq(box,t.gen(),()=>mark(i))}
   if(t.t=='build'){let k=0,sc=0;const its=shuffle(t.items);const draw=()=>{
     if(k>=its.length){box.innerHTML=`<div class="res"><big>${sc} / ${its.length}</big>${sc>=its.length-1?'Excellent!':'Good!'}</div><p><button class="btn" id="bb${i}">Again</button></p>`;$('bb'+i).onclick=()=>{k=0;sc=0;draw()};mark(i);return}
-    const c=its[k],target=S(c[0]).replace(/[…?!.,]/g,'').trim().split(/\s+/),tiles=shuffle(target.map((w,x)=>({w,x})));let ans=[];
+    const c=its[k],target=S(c[0]).replace(/[…?!.,]/g,'').trim().split(/\s+/),tiles=shuffle(target.map((w,x)=>({w,x})).concat((c[3]||[]).map(w=>({w,x:-1}))));let ans=[];
     box.innerHTML=`<div class="qn">${k+1} / ${its.length}</div><div class="bigq" style="font-size:26px">${c[1]}</div><div class="q2 zh">${c[2]}</div><div class="ans" id="an${i}"></div><div class="tiles2" id="tl${i}">${tiles.map(x=>`<button class="tl2" data-k="${x.x}">${x.w}</button>`).join('')}</div><button class="btn ghost sm" id="cl${i}">Clear</button>`;
     const upd=()=>{$('an'+i).innerHTML=ans.map(a=>`<span class="tl2">${a.w}</span>`).join('');$('tl'+i).querySelectorAll('.tl2').forEach((b,ix)=>b.classList.toggle('used',ans.some(a=>a.id==ix)));
      if(ans.length==target.length){const good=ans.every((a,x)=>a.w==target[x]);$('an'+i).classList.add(good?'okk':'bad');if(good){sc++;say(c[0])}else $('an'+i).insertAdjacentHTML('afterend',`<div class="q2">${S(c[0])}</div>`);setTimeout(()=>{k++;draw()},good?900:1700)}};
