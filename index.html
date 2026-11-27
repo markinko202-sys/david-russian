@@ -451,7 +451,7 @@ const LESSONS=SYD.lessons;
 const PICS=SYD.pics;
 SYD.decks.forEach(d=>DECKS.push({id:d[0],lesson:d[1],title:d[2],zh:d[3],cards:d[4].map((e,i)=>C(d[0]+'_'+i,e.ru,e.en,e.ko,{rm:e.rm,img:e.img?PICS[e.img]:''}))}));
 const spkBtn=x=>`<button class="spk" data-spk="${String(x).replace(/"/g,'&quot;')}" title="Listen">${SPK}</button>`;
-const nrm=s=>S(s).replace(/́/g,'').toLowerCase().replace(/ё/g,'е').replace(/[^a-zа-я0-9áéíóúñü ]/g,' ').replace(/\s+/g,' ').trim();
+const nrm=s=>S(s).replace(/́/g,'').toLowerCase().replace(/ё/g,'е').replace(/[^a-zа-я0-9 ]/g,' ').replace(/\s+/g,' ').trim();
 const DICT=[];(()=>{const seen=new Set();SYD.decks.forEach(d=>d[4].forEach(e=>{const k=nrm(e.ru);if(seen.has(k))return;seen.add(k);DICT.push({ru:S(e.ru),en:e.en,zh:e.ko,rm:e.rm,l:e.l,g:e.g,img:e.img?PICS[e.img]:'',kind:(/[?!.,]/.test(e.ru)||e.ru.trim().split(/\s+/).length>=3)?'phrase':'word'})}))})();
 let _s=20261127;const _r=()=>{_s|=0;_s=_s+0x6D2B79F5|0;let t=Math.imul(_s^_s>>>15,1|_s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
 const WODS=DICT.filter(e=>e.kind=='word'&&e.img);for(let i=WODS.length-1;i>0;i--){const j=Math.floor(_r()*(i+1));[WODS[i],WODS[j]]=[WODS[j],WODS[i]]}
@@ -627,7 +627,7 @@ function openHw(hi){
     if(k>=items.length){box.innerHTML=`<div class="res"><big>${sc} / ${items.length}</big>${sc>=items.length*0.8?'Excellent!':'Good! Try again for a better score.'}</div><p><button class="btn" id="pa${i}">Again</button></p>`;$('pa'+i).onclick=()=>{k=0;sc=0;items.sort(()=>Math.random()-.5);draw()};mark(i);return}
     const it=items[k];lock=false;
     const opts=shuffle([it.u,...shuffle(L.map(x=>x[0]).filter(u=>u!=it.u)).slice(0,3)]);
-    box.innerHTML=`<div class="qn">${k+1} / ${items.length}</div><div class="dr" style="width:112px;height:112px;margin:6px auto">${D[it.u]}</div><div class="q2">Which letter is this? ¿Qué letra es?</div><div class="row" style="justify-content:center;margin-bottom:6px"><button class="btn ghost sm" id="hn${i}">Hint</button>${it.w?`<button class="btn ghost sm" id="hr${i}">${SPK} <span>Hear the word</span></button>`:''}</div><div class="q2" id="hx_${i}" style="min-height:26px;font-weight:800"></div><div class="qo">${opts.map(o=>`<button class="opt" data-o="${o}">${o} ${o.toLowerCase()}</button>`).join('')}</div>`;
+    box.innerHTML=`<div class="qn">${k+1} / ${items.length}</div><div class="dr" style="width:112px;height:112px;margin:6px auto">${D[it.u]}</div><div class="q2">Which letter is this? Which letter?</div><div class="row" style="justify-content:center;margin-bottom:6px"><button class="btn ghost sm" id="hn${i}">Hint</button>${it.w?`<button class="btn ghost sm" id="hr${i}">${SPK} <span>Hear the word</span></button>`:''}</div><div class="q2" id="hx_${i}" style="min-height:26px;font-weight:800"></div><div class="qo">${opts.map(o=>`<button class="opt" data-o="${o}">${o} ${o.toLowerCase()}</button>`).join('')}</div>`;
     const show=()=>{$('hx_'+i).innerHTML=it.w?`${S(it.w)} <span class="zh" style="font-weight:600;color:var(--muted)">· ${it.en} · ${it.zh}</span>`:'hard sign, a silent letter 硬音符号'};
     $('hn'+i).onclick=show;if($('hr'+i))$('hr'+i).onclick=()=>say(S(it.w));
     box.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(lock)return;lock=true;const ok=b.dataset.o==it.u;if(ok){b.classList.add('ok');sc++}else{b.classList.add('no');box.querySelectorAll('.opt').forEach(x=>{if(x.dataset.o==it.u)x.classList.add('ok')})}show();if(it.w)say(S(it.w));setTimeout(()=>{k++;draw()},ok?1500:2400)})};
