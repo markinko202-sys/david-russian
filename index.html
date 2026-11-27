@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Привет, Дэвид!</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="themes.css"><meta name="theme-color" content="#1F4378">
+<script>try{const d=document.documentElement;d.dataset.theme=localStorage.getItem('dv_theme')||'rose';d.dataset.zh='off';d.dataset.rm='off'}catch(e){}</script>
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Inter',sans-serif;color:var(--ink);background:radial-gradient(circle at 10% 0,var(--g1) 0,transparent 40%),radial-gradient(circle at 95% 15%,var(--g2) 0,transparent 38%),radial-gradient(circle at 50% 100%,var(--g3) 0,transparent 40%),var(--bg);min-height:100vh;line-height:1.5}
+.hand{font-family:'Oswald','Inter',cursive}
+.zh{font-family:'Inter',sans-serif}
+.dr svg{display:block;width:100%;height:100%;filter:url(#sk)}
+header{display:flex;align-items:center;justify-content:center;gap:12px;padding:16px 16px 4px}
+header .av{width:54px;height:54px;background:var(--blush);border-radius:50% 46% 52% 48%;display:grid;place-items:center}
+header .av svg{width:40px;height:40px}
+header h1{font-family:'Oswald',cursive;font-size:44px;line-height:1;margin:0;color:var(--rose2)}
+nav{position:sticky;top:0;z-index:30;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:10px 12px;background:var(--navbg);backdrop-filter:blur(8px);border-bottom:2px dashed var(--line)}
+.pill{border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:20px;padding:6px 16px;font:800 15px 'Inter',sans-serif;cursor:pointer;transition:.15s;text-align:center;line-height:1.15}
+.pill small{display:block;font-size:11px;font-weight:700;color:var(--muted)}
+.pill:hover{transform:translateY(-2px)}
+.pill.on{background:var(--rose);border-color:var(--rose);color:#fff}
+.pill.on small{color:#fff;opacity:.85}
+main{max-width:1000px;margin:0 auto;padding:18px 16px 110px}
+.view{display:none;animation:in .35s}.view.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+h2{font-family:'Oswald',cursive;font-size:40px;margin:4px 0 2px}
+h3{margin:0 0 6px;font-size:18px}
+.sub{color:var(--muted);margin:0 0 16px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:28px 32px 26px 34px/32px 26px 34px 28px;padding:20px;box-shadow:0 7px 0 var(--blush);margin:0 0 22px}
+.card.lav{background:var(--lav);border-color:var(--bdlav);box-shadow:0 7px 0 var(--shlav)}
+.card.mint{background:var(--mint);border-color:var(--bdmint);box-shadow:0 7px 0 var(--shmint)}
+.card.peach{background:var(--peach);border-color:var(--bdpeach);box-shadow:0 7px 0 var(--shpeach)}
+.btn{border:0;background:var(--rose);color:#fff;border-radius:999px;padding:11px 22px;font:800 15px 'Inter','PingFang SC',sans-serif;cursor:pointer;box-shadow:0 5px 0 var(--rose2);transition:.12s}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--rose2)}
+.btn.ghost{background:var(--card);color:var(--rose2);border:2px solid var(--rose);box-shadow:none}
+.btn.sm{padding:7px 16px;font-size:13.5px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-bottom:22px}
+.tile{background:var(--card);border:2px solid var(--line);border-radius:26px 30px 24px 32px/30px 24px 32px 26px;padding:18px;cursor:pointer;box-shadow:0 6px 0 var(--blush);transition:.15s;display:flex;gap:14px;align-items:center}
+.tile:hover{transform:translateY(-4px) rotate(-.5deg)}
+.tile .dr{flex:0 0 62px;height:62px}
+.tile b{font-size:18px;display:block}
+.tile small{color:var(--muted);display:block}
+.hero{display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:center}
+.hero .av{width:150px;height:150px;background:var(--blush);border-radius:50% 46% 52% 48%;display:grid;place-items:center}
+.hero .av svg{width:112px;height:112px}
+.hero h2{font-size:54px;color:var(--rose2);line-height:1.05;margin:0 0 6px}
+.badge{display:inline-block;border-radius:999px;padding:3px 12px;font-weight:800;font-size:12.5px;background:var(--blush);color:var(--rose2)}
+.badge.ok{background:var(--mint);color:var(--mint2)}
+.lessonbar{display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+iframe.lf{width:100%;height:calc(100vh - 210px);min-height:520px;border:2px solid var(--line);border-radius:26px;background:var(--bg)}
+.lcard{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.lcard .num{font-family:'Oswald',cursive;font-size:54px;color:var(--rose2);line-height:1;flex:0 0 64px;text-align:center}
+.lcard .tx{flex:1;min-width:200px}
+.lcard.lock{opacity:.55}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 12px}
+.chip{border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:16px;padding:7px 14px;font:700 14px 'Inter','PingFang SC',sans-serif;cursor:pointer;text-align:left}
+.chip small{display:block;font-weight:600;color:var(--muted);font-size:11.5px}
+.chip.on{background:var(--lav);border-color:var(--lav2)}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:8px 0}
+.mode{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:12px;text-align:center;cursor:pointer;font-weight:800;box-shadow:0 5px 0 var(--blush);transition:.15s}
+.mode:hover{transform:translateY(-3px)}
+.mode.on{background:var(--rose);border-color:var(--rose);color:#fff;box-shadow:0 5px 0 var(--rose2)}
+.mode small{display:block;font-weight:600;opacity:.8;font-size:12px}
+.stage{background:var(--card);border:2px dashed var(--rose);border-radius:28px;padding:20px;text-align:center;min-height:240px}
+.qn{font-weight:800;color:var(--muted);font-size:13px}
+.fc{max-width:460px;margin:8px auto;min-height:230px;background:var(--lav);border:2px solid var(--bdlav);border-radius:30px;padding:18px;cursor:pointer;box-shadow:0 8px 0 var(--shlav);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transition:.15s}
+.fc:hover{transform:translateY(-3px)}
+.fc.back{background:var(--mint);border-color:var(--bdmint);box-shadow:0 8px 0 var(--shmint)}
+.fc .dr{width:90px;height:90px}
+.fc .ru{font-size:34px;font-weight:800}
+.fc .ru.big{font-family:'Oswald',cursive;font-size:76px;color:var(--rose2);line-height:1}
+.fc .tr{font-size:18px;font-weight:700}
+.fc .hint{font-size:12.5px;color:var(--muted)}
+.bigq{font-size:34px;font-weight:800;line-height:1.1;margin:6px 0}
+.bigq.big{font-family:'Oswald',cursive;font-size:72px;color:var(--rose2)}
+.bigq .dr{width:84px;height:84px;margin:0 auto}
+.q2{color:var(--muted);margin-bottom:12px}
+.qo{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.opt{border:2px solid var(--line);background:var(--card);border-radius:18px;padding:12px 18px;font:800 16px 'Inter','PingFang SC',sans-serif;color:var(--ink);cursor:pointer;min-width:90px;transition:.12s}
+.opt:hover{border-color:var(--rose)}
+.opt.ok{background:var(--ok);border-color:var(--mint2)}
+.opt.no{background:var(--bad);border-color:#E58B8B}
+.res{font-size:22px;font-weight:800}
+.res big{display:block;font-family:'Oswald',cursive;font-size:64px;color:var(--rose2)}
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:640px;margin:8px auto}
+.mi{border:2px solid var(--line);background:var(--card);border-radius:18px;padding:10px 12px;font:800 16px 'Inter','PingFang SC',sans-serif;color:var(--ink);cursor:pointer;min-height:54px}
+.mi.sel{border-color:var(--rose);background:var(--blush)}
+.mi.done{background:var(--ok);border-color:var(--mint2);cursor:default}
+.mi.bad{background:var(--bad);border-color:#E58B8B}
+.mi small{display:block;font-weight:600;color:var(--muted);font-size:12px}
+.tiles2{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:10px 0}
+.tl2{border:2px solid var(--line);background:var(--card);border-radius:14px;padding:8px 14px;font:800 20px 'Inter',sans-serif;cursor:pointer;color:var(--ink)}
+.tl2.used{opacity:.25;pointer-events:none}
+.ans{min-height:56px;border-bottom:3px dashed var(--line);display:flex;gap:8px;flex-wrap:wrap;justify-content:center;align-items:center;padding:6px;margin:8px auto;max-width:560px}
+.ans .tl2{background:var(--blush);border-color:var(--rose)}
+.ans.okk .tl2{background:var(--ok);border-color:var(--mint2)}
+.ans.bad .tl2{background:var(--bad);border-color:#E58B8B}
+.hw{display:flex;gap:14px;align-items:flex-start}
+.hw .tick{flex:0 0 34px;height:34px;border-radius:50%;border:3px solid var(--line);display:grid;place-items:center;margin-top:2px;background:var(--card)}
+.hw.done .tick{background:var(--mint);border-color:var(--mint2)}
+.hw.done .tick:after{content:"";width:8px;height:14px;border:solid var(--mint2);border-width:0 3.5px 3.5px 0;transform:rotate(40deg) translate(-1px,-2px)}
+.hw .body{flex:1;min-width:0}
+.hw h3{margin-bottom:2px}
+.cb{display:inline-flex;gap:10px;margin:8px 0}
+.cb i{width:42px;height:42px;border-radius:14px;border:3px solid var(--line);background:var(--card);cursor:pointer;display:grid;place-items:center}
+.cb i.on{background:var(--mint);border-color:var(--mint2)}
+.cb i.on:after{content:"";width:9px;height:17px;border:solid var(--mint2);border-width:0 4px 4px 0;transform:rotate(40deg) translate(-1px,-2px)}
+.tin{border:2px solid var(--rose);border-radius:16px;padding:10px 14px;font:700 17px 'Inter',sans-serif;width:260px;max-width:100%;background:var(--card);color:var(--ink)}
+.out{font-size:24px;font-weight:800;margin-top:10px}.out b{color:var(--rose2)}
+.sw{display:flex;gap:12px;flex-wrap:wrap}
+.swb{width:84px;border:3px solid var(--line);background:var(--card);border-radius:20px;padding:8px 6px;cursor:pointer;text-align:center;font:800 13px 'Inter',sans-serif;color:var(--ink)}
+.swb i{display:block;height:34px;border-radius:12px;margin-bottom:5px}
+.swb.on{border-color:var(--rose2);box-shadow:0 4px 0 var(--rose)}
+.tg{display:inline-flex;align-items:center;gap:10px;cursor:pointer;font-weight:800}
+.tg i{width:50px;height:28px;border-radius:999px;background:var(--line);position:relative;transition:.2s}
+.tg i:after{content:"";position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.2s}
+.tg.on i{background:var(--rose)}.tg.on i:after{left:25px}
+select,input[type=range]{font:700 15px 'Inter',sans-serif;accent-color:var(--rose)}
+select{border:2px solid var(--rose);border-radius:14px;padding:8px 10px;background:var(--card);color:var(--ink)}
+#music{position:fixed;right:14px;bottom:14px;z-index:40;display:flex;align-items:center;gap:10px;background:var(--card);border:2px solid var(--line);border-radius:999px;padding:6px 16px 6px 8px;box-shadow:0 5px 0 var(--blush);cursor:pointer;font-weight:800;font-size:14px;color:var(--ink)}
+#music .dot{width:34px;height:34px;border-radius:50%;background:var(--rose);display:grid;place-items:center}
+#music .dot svg{width:18px;height:18px}
+#music.play .dot{animation:pulse 1.6s infinite}
+@keyframes pulse{50%{transform:scale(1.12)}}
+#ytp{position:fixed;right:0;bottom:0;width:2px;height:2px;opacity:.01;pointer-events:none;overflow:hidden}
+.stat{display:flex;gap:10px;flex-wrap:wrap}
+.stat div{background:var(--card);border:2px dashed var(--line);border-radius:18px;padding:8px 14px;font-weight:800}
+.stat small{display:block;color:var(--muted);font-weight:600}
+body.menu header,body.menu nav{display:none}
+.mhero{text-align:center;padding:30px 10px 10px}
+.mhero .row2{display:flex;justify-content:center;gap:6px;margin-bottom:6px}
+.mhero .row2 .dr{width:62px;height:62px}
+.mhero h1{font-family:'Oswald',cursive;font-size:76px;line-height:1;margin:6px 0;color:var(--rose2)}
+.menubtns{display:flex;flex-direction:column;gap:16px;max-width:430px;margin:22px auto 0}
+.mbtn{display:flex;align-items:center;gap:16px;background:var(--card);border:2px solid var(--line);border-radius:28px 32px 26px 34px/32px 26px 34px 28px;padding:16px 20px;cursor:pointer;box-shadow:0 7px 0 var(--blush);transition:.15s;font:800 24px 'Inter',sans-serif;color:var(--ink);text-align:left}
+.mbtn:hover{transform:translateY(-4px) rotate(-.6deg)}
+.mbtn.main{background:var(--rose);border-color:var(--rose);color:#fff;box-shadow:0 7px 0 var(--rose2)}
+.mbtn .dr{flex:0 0 52px;height:52px}
+.mbtn small{display:block;font:600 13px 'Inter',sans-serif;opacity:.8}
+.about{display:grid;grid-template-columns:230px 1fr;gap:24px;align-items:center}
+.ph{width:230px;height:290px;border-radius:48% 52% 46% 54%/40% 44% 56% 60%;overflow:hidden;border:6px solid var(--card);box-shadow:0 0 0 3px var(--rose),0 10px 0 var(--blush);transform:rotate(-2deg)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.about h2{font-size:46px;color:var(--rose2);margin:0}
+.about p{margin:6px 0}
+.bored{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.bored .dr{flex:0 0 70px;height:70px}
+.bored .tx{flex:1;min-width:220px}
+@media(max-width:680px){.about{grid-template-columns:1fr;text-align:center}.ph{margin:auto}.mhero h1{font-size:56px}header h1{font-size:34px}.hero{grid-template-columns:1fr;text-align:center}.hero .av{margin:auto}.hero h2{font-size:42px}.mg{grid-template-columns:1fr}iframe.lf{height:calc(100vh - 240px)}}
+/* ---- layout / burger / night / dict (ported from May site) ---- */
+main{max-width:1240px;padding:26px 28px 120px}
+body.menu main{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:20px 28px}
+body.menu #v-menu{padding:0}
+.mhero{padding:0 10px 6px}.menubtns{max-width:480px;margin:28px auto 0}
+.card{padding:26px 28px}
+.stage{padding:30px;min-height:340px}.fc{max-width:620px;min-height:300px}
+.tiles{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}.lcard{gap:20px}
+iframe.lf{height:calc(100vh - 190px)}
+.hw .body{min-width:0}
+.hw .qo{gap:14px;margin:18px 0 6px}.hw .opt{font-size:19px;padding:15px 24px;min-width:140px;border-radius:20px;box-shadow:0 4px 0 var(--blush)}
+.hw .row{margin:14px 0}.hw .mg{max-width:820px;gap:14px}.hw .mi{font-size:19px;padding:14px 16px;min-height:62px}
+.hw .tiles2{gap:12px;margin:20px 0}.hw .tl2{font-size:22px;padding:11px 20px}.hw .ans{min-height:68px;margin:14px auto}
+.hw .bigq{margin:12px 0 8px}.hw .btn{font-size:16px}
+header#top{position:sticky;top:0;z-index:35;display:flex;align-items:center;justify-content:flex-start;gap:12px;padding:10px 18px;background:var(--navbg);backdrop-filter:blur(8px);border-bottom:2px dashed var(--line)}
+header#top .av{width:46px;height:46px}header#top .av svg{width:34px;height:34px}
+header#top h1{font-size:40px;line-height:1;margin:0}
+#burger{width:46px;height:46px;border-radius:16px;border:2px solid var(--line);background:var(--card);box-shadow:0 4px 0 var(--blush);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer;flex:0 0 46px;padding:0}
+#burger i{display:block;width:22px;height:3px;border-radius:3px;background:var(--rose2);transition:.2s}
+body.navopen #burger i:nth-child(1){transform:translateY(8px) rotate(45deg)}body.navopen #burger i:nth-child(2){opacity:0}body.navopen #burger i:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+.hstats{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.hs{background:var(--card);border:2px solid var(--line);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:6px;white-space:nowrap}.hs b{color:var(--rose2);font-weight:800}
+.lvbar{display:inline-block;width:46px;height:7px;border-radius:5px;background:var(--line);overflow:hidden}.lvbar u{display:block;height:100%;background:var(--rose);text-decoration:none}
+nav#nav{position:fixed;top:0;left:0;bottom:0;width:300px;max-width:84vw;z-index:50;transform:translateX(-105%);transition:transform .25s;flex-direction:column;flex-wrap:nowrap;justify-content:flex-start;align-items:stretch;gap:10px;padding:20px 16px;background:var(--bg);border:0;border-right:2px solid var(--line);box-shadow:8px 0 30px rgba(0,0,0,.12);overflow-y:auto;backdrop-filter:none;display:flex}
+body.navopen nav#nav{transform:none}
+nav#nav .pill{text-align:left;border-radius:18px;padding:12px 18px;font-size:18px;display:block;width:100%}
+.navhead{padding:4px 8px 10px}.navhead .hand{font-size:44px;color:var(--rose2);line-height:1}.navhead small{color:var(--muted);font-weight:700}
+#scrim{position:fixed;inset:0;background:rgba(60,40,60,.35);z-index:45;opacity:0;pointer-events:none;transition:.25s}body.navopen #scrim{opacity:1;pointer-events:auto}
+body.menu header#top,body.menu nav#nav,body.menu #scrim,body.menu #themepop{display:none!important}
+.hbtns{display:flex;gap:8px;margin-left:10px}
+.ibtn{width:44px;height:44px;border-radius:15px;border:2px solid var(--line);background:var(--card);color:var(--rose2);box-shadow:0 4px 0 var(--blush);display:grid;place-items:center;cursor:pointer;padding:0}.ibtn:hover{background:var(--blush)}
+#themepop{position:fixed;top:68px;right:14px;z-index:60;background:var(--card);border:2px solid var(--line);border-radius:22px;padding:14px;box-shadow:0 10px 0 var(--blush),0 12px 30px rgba(0,0,0,.15);display:none;max-width:calc(100vw - 28px)}#themepop.on{display:block}
+#themepop .sw{gap:8px}#themepop .swb{width:74px}
+.spk{border:0;background:var(--blush);color:var(--rose2);width:34px;height:34px;border-radius:50%;display:inline-grid;place-items:center;cursor:pointer;vertical-align:middle;flex:0 0 34px}.spk:hover{background:var(--rose);color:#fff}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-bottom:16px}
+.dc{background:var(--card);border:2px solid var(--line);border-radius:24px 28px 22px 30px/28px 22px 30px 24px;padding:12px;display:flex;gap:12px;align-items:center;box-shadow:0 5px 0 var(--blush)}
+.dc .dr{flex:0 0 78px;height:78px}.dc .dt{flex:1;min-width:0}.dru{font-size:21px;font-weight:800;display:flex;gap:8px;align-items:center;flex-wrap:wrap}.den{font-weight:600}
+.dm{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;font-size:12px;font-weight:800;color:var(--muted)}.dm span{background:var(--blush);border-radius:999px;padding:1px 9px}
+.card.latest{position:relative;border:3px solid var(--rose);background:linear-gradient(135deg,var(--lg1),var(--card));box-shadow:0 8px 0 var(--rose2),0 0 0 6px color-mix(in srgb,var(--rose) 18%,transparent);padding-top:34px}
+.newtag{position:absolute;top:-14px;left:24px;background:var(--rose2);color:#fff;font-weight:800;font-size:13px;letter-spacing:.06em;border-radius:999px;padding:5px 16px;box-shadow:0 3px 0 var(--rose)}
+.card.latest .num{font-size:70px}
+@media(max-width:680px){main{padding:16px 12px 110px}.dgrid{grid-template-columns:1fr}.hw .opt{font-size:17px;padding:13px 18px;min-width:0}}
+@media(max-width:620px){header#top{padding:8px 12px;gap:8px}header#top h1{font-size:32px}header#top .av{display:none}.hs:nth-child(2),.hs:nth-child(3){display:none}.hstats{gap:6px;flex-wrap:nowrap}.hs{padding:3px 9px;font-size:12px}.lvbar{width:32px}.hbtns{gap:6px;margin-left:6px}.ibtn{width:40px;height:40px;border-radius:13px}}
+
+.zh{display:none!important}.rm{display:none!important}
+
+.hand,h1,h2,.mhero h1,.hero h2,.about h2,.lcard .num,.res big,.fc .ru.big,.bigq.big,.navhead .hand{font-family:'Oswald',sans-serif!important;text-transform:uppercase;letter-spacing:.03em;font-weight:600}
+h2{font-size:34px}.hero h2{font-size:42px}.about h2{font-size:38px}.mhero h1{font-size:60px}header#top h1{font-size:30px}.lcard .num{font-size:44px}.card.latest .num{font-size:54px}.res big{font-size:52px}.navhead .hand{font-size:34px}
+.card,.tile,.mbtn,.dc,.mode,.stage,.fc,.opt,.mi,.tl2,.chip,.swb,#music,.stat div,.hs,.ibtn,#burger,.pill,.btn,.tin,select,.cb i,.hw .opt,#themepop,iframe.lf,.badge{border-radius:12px!important}
+.btn,.pill,.chip,.badge,.hs,#music,.tg i,.tg i:after{border-radius:10px!important}.tg i{border-radius:999px!important}.tg i:after{border-radius:50%!important}
+.card,.tile,.mbtn,.dc,.mode{border-width:1px!important;box-shadow:0 3px 0 var(--line)!important}
+.card.lav,.card.mint,.card.peach{box-shadow:0 3px 0 var(--line)!important}
+.fc{box-shadow:0 5px 0 var(--line)!important}.fc.back{box-shadow:0 5px 0 var(--line)!important}
+.hw .opt,.ibtn,#burger{box-shadow:0 3px 0 var(--line)!important}
+header#top,nav{border-bottom:1px solid var(--line)!important}nav#nav{border-right:1px solid var(--line)!important}
+.stage{border:2px solid var(--line)!important}
+.dr svg{filter:none!important}
+.hero .av,header .av,header#top .av{border-radius:14px!important}
+.ph{border-radius:16px!important;transform:none!important;box-shadow:0 0 0 3px var(--rose),0 6px 0 var(--line)!important}
+.tile:hover,.mbtn:hover{transform:translateY(-2px)!important}
+.mbtn{font-size:22px}
+.btn{box-shadow:0 4px 0 var(--rose2)}
+.dr svg.ic{color:var(--rose2);stroke:currentColor}.dr svg.ic .f{fill:var(--blush)}
+.hg{display:none!important}html[data-rm="off"] .rm{display:none!important}
+.rm{color:var(--lav2);font-size:13px;font-weight:700;letter-spacing:.02em}.fc .rm{font-size:15px}
+.col{display:flex;flex-direction:column}
+.chips#decks{display:block}
+.ltabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.lt2{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:10px 14px 10px 16px;display:flex;flex-direction:column;align-items:flex-start;cursor:pointer;min-width:150px;position:relative;font:700 16px 'Inter',sans-serif;box-shadow:0 3px 0 var(--line)}
+.lt2 small{font-weight:600;color:var(--muted);font-size:12px}.lt2 i{position:absolute;right:12px;top:12px;font-style:normal;color:var(--muted);transition:.2s}
+.lt2.has{border-color:var(--rose)}.lt2.open{background:var(--rose);border-color:var(--rose);color:#fff}.lt2.open small,.lt2.open i{color:#fff;opacity:.85}.lt2.open i{transform:rotate(180deg)}
+.lpanel{border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:8px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.lpi{display:flex;gap:10px;align-items:center;padding:9px 12px;border-radius:10px;cursor:pointer;font-weight:600}.lpi:hover{background:var(--blush)}
+.lpi i{flex:0 0 20px;height:20px;border:2px solid var(--line);border-radius:6px;background:var(--card)}.lpi.on i{background:var(--rose);border-color:var(--rose);box-shadow:inset 0 0 0 3px var(--card)}
+.lpi small{color:var(--muted);font-weight:600;margin-left:4px}.lpi.full{grid-column:1/-1;background:var(--blush)}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute"><filter id="sk"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter></svg>
+
+<header id="top"><button id="burger" aria-label="Menu"><i></i><i></i><i></i></button><div class="av dr" id="hav"></div><h1>Дэвид</h1><div class="hstats" id="hstats"></div>
+ <div class="hbtns"><button class="ibtn" id="themebtn" aria-label="Color theme"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18c1.6 0 2-1 1.4-2-.7-1.2.1-2.5 1.5-2.5H17a4 4 0 0 0 4-4C21 6.6 17 3 12 3z"/><circle cx="7.5" cy="11" r="1.2" fill="currentColor"/><circle cx="10.5" cy="7.2" r="1.2" fill="currentColor"/><circle cx="15" cy="7.5" r="1.2" fill="currentColor"/></svg></button><button class="ibtn" id="modebtn" aria-label="Night mode"></button></div></header>
+<div id="themepop"><div class="sub" style="margin:0 0 8px;font-weight:800">Color theme <span class="zh">Tema de color</span></div><div class="sw" id="sw2"></div></div>
+<div id="scrim"></div>
+<nav id="nav"></nav>
+
+<main>
+<!-- MENU -->
+<section class="view" id="v-menu">
+ <div class="mhero">
+  <div class="row2" id="mrow"></div>
+  <h1>Приве'т, Дэ'вид!</h1>
+  <p style="font-size:19px;margin:0">Welcome to your Russian space. <span class="zh">Bienvenido a tu espacio de ruso.</span></p>
+ </div>
+ <div class="menubtns">
+  <button class="mbtn main" data-go="start"><span class="dr" id="mb1"></span><span>Нача'ть<small>Start · Empezar</small></span></button>
+  <button class="mbtn" data-go="settings"><span class="dr" id="mb2"></span><span>Настро'йки<small>Settings · Ajustes</small></span></button>
+  <button class="mbtn" data-go="about"><span class="dr" id="mb3"></span><span>Об а'вторе<small>About the author · Sobre el autor</small></span></button>
+ </div>
+</section>
+
+<!-- START -->
+<section class="view on" id="v-start">
+ <div class="card hero">
+  <div class="av dr" id="hero-av"></div>
+  <div>
+   <h2>Приве'т, Дэ'вид!</h2>
+   <p style="margin:0 0 4px;font-size:18px">Welcome to your Russian space. <span class="zh">Bienvenido a tu espacio de ruso.</span></p>
+   <p class="sub" style="margin:0">Lessons, homework and games, all in one place. <span class="zh">Lecciones, tareas y juegos, todo en un solo lugar.</span></p>
+  </div>
+ </div>
+ <div class="tiles">
+  <div class="tile" data-go="lessons"><div class="dr" id="t1"></div><div><b>Continue lesson</b><small id="t1s"></small></div></div>
+  <div class="tile" data-go="homework"><div class="dr" id="t2"></div><div><b>Homework</b><small id="t2s"></small></div></div>
+  <div class="tile" data-go="dict"><div class="dr" id="t5"></div><div><b>Dictionary</b><small id="t5s"></small></div></div>
+  <div class="tile" data-go="practice"><div class="dr" id="t3"></div><div><b>Practice</b><small id="t3s"></small></div></div>
+ </div>
+ <div class="card lav"><h3>Today's Russian word <span class="zh" style="font-weight:600;color:var(--muted)">Palabra rusa del día</span></h3><div class="row" style="gap:18px;flex-wrap:nowrap"><div class="dr" id="wodp" style="flex:0 0 90px;height:90px"></div><div><div class="hand" style="font-size:48px;line-height:1.1;color:var(--lav2)" id="wod"></div><div id="wods" style="color:var(--muted)"></div></div></div></div>
+</section>
+
+<!-- LESSONS -->
+<section class="view" id="v-lessons">
+ <div id="lessonList">
+  <h2>Lessons <span class="zh" style="font-size:30px">Lecciones</span></h2>
+  <p class="sub">Every lesson we do together appears here. You can open it any time and repeat it.</p>
+  <div id="lessonCards"></div>
+ </div>
+ <div id="lessonView" style="display:none">
+  <div class="lessonbar"><button class="btn ghost sm" id="lback">← All lessons</button><span class="badge" id="ltitle"></span></div>
+  <iframe class="lf" id="lframe" title="Lesson"></iframe>
+ </div>
+</section>
+
+<!-- HOMEWORK -->
+<section class="view" id="v-homework">
+ <h2>Homework <span class="zh" style="font-size:30px">Tareas</span></h2>
+ <p class="sub">Do a homework when you have time. Each one says how long it takes. Your progress is saved on this device.</p>
+ <div id="hwList"></div>
+ <div id="hwView" style="display:none"></div>
+</section>
+
+<!-- PRACTICE -->
+<section class="view" id="v-practice">
+ <h2>Practice <span class="zh" style="font-size:30px">Práctica</span></h2>
+ <p class="sub">Pick what to practice, then pick a game. Mix as many lessons as you like.</p>
+ <div class="card">
+  <h3>1 · What to practice <span class="zh" style="font-weight:600;color:var(--muted)">Qué practicar</span></h3>
+  <div class="chips" id="decks"></div>
+  <div class="row"><button class="btn ghost sm" id="allDecks">All taught</button><button class="btn ghost sm" id="noDecks">Clear</button><span class="badge" id="deckCount"></span></div>
+ </div>
+ <div class="card">
+  <h3>2 · Game <span class="zh" style="font-weight:600;color:var(--muted)">Elige un juego</span></h3>
+  <div class="modes" id="modes"></div>
+  <div class="row" style="margin-top:12px"><span style="font-weight:800">Show first:</span><div class="chips" style="margin:0" id="dirs"></div></div>
+ </div>
+ <div class="stage" id="stage"><p class="sub" style="margin-top:70px">Choose cards and a game above, then press Start.</p></div>
+ <p style="text-align:center;margin-top:16px"><button class="btn" id="startBtn">Start ▸</button></p>
+</section>
+
+<!-- DICTIONARY -->
+<section class="view" id="v-dict">
+ <h2>Dictionary <span class="zh" style="font-size:30px">Diccionario</span></h2><p class="sub">Search any word or phrase from our lessons, in Russian or English. Many words have pictures. <span class="zh">Busca en ruso, inglés o español. Muchas palabras tienen imagen.</span></p>
+ <div class="card"><div class="row"><input class="tin" id="dq" placeholder="Search… Buscar…" style="flex:1;width:auto;min-width:200px"><select id="dl"></select></div>
+  <div class="chips" id="dk" style="margin:12px 0 0"></div><div class="sub" id="dcount" style="margin:6px 0 0"></div></div>
+ <div class="dgrid" id="dgrid"></div><p style="text-align:center"><button class="btn ghost" id="dmore" style="display:none">Show more</button></p>
+</section>
+
+<!-- SETTINGS -->
+<section class="view" id="v-settings">
+ <h2>Settings <span class="zh" style="font-size:30px">Ajustes</span></h2>
+ <div class="card"><h3>Color theme <span class="zh" style="font-weight:600;color:var(--muted)">Tema de color</span></h3><div class="sw" id="sw"></div></div>
+ <div class="card"><h3>Music <span class="zh" style="font-weight:600;color:var(--muted)">Música</span></h3>
+  <p class="sub" style="margin-bottom:10px">Calm lo-fi from YouTube while you study. Press play, it stays on while you move between pages.</p><div class="sub" id="mMsg" style="margin:0 0 8px"></div>
+  <div class="row"><button class="btn sm" id="mPlay">Play ▸</button><select id="mTrack"></select><label class="row" style="gap:8px;font-weight:700">Volume <input type="range" id="mVol" min="0" max="100" value="50"></label></div>
+ </div>
+ <div class="card"><h3>Audio</h3><label class="tg" id="slTg"><i></i><span>Slow audio</span></label></div>
+ <div class="card"><h3>Reset</h3><p class="sub" style="margin-bottom:10px">Clears homework progress and learned cards on this device.</p><button class="btn ghost sm" id="reset">Reset progress</button></div>
+</section>
+<!-- ABOUT -->
+<section class="view" id="v-about">
+ <div class="card about">
+  <div class="ph"><img src="assets/artemiy.jpg" alt="Artemiy"></div>
+  <div>
+   <h2>Арте'мий</h2>
+   <span class="badge">Russian teacher · Profesor de ruso</span>
+   <p style="margin-top:12px">Hi David, I'm Artemiy, your Russian teacher. <span class="zh">Hola, soy Artemiy, tu profesor de ruso.</span></p>
+   <p>I teach every student in a personal way: the lessons are made around you, not around a textbook. <span class="zh">Preparo las clases a la medida de cada estudiante.</span></p>
+   <p>I am also a software engineer. That is why I build small websites and apps for my students, like this one. <span class="zh">También soy ingeniero de software, por eso hago pequeños sitios web y apps para mis estudiantes, como este.</span></p>
+  </div>
+ </div>
+ <div class="card peach bored">
+  <div class="dr" id="boredIc"></div>
+  <div class="tx"><h3>Feeling bored? <span class="zh" style="font-weight:600;color:var(--muted)">¿Aburrido?</span></h3><div>Don't worry, I know a cure: <b>homework</b>! It is super easy, I promise. <span class="zh">No te preocupes, tengo la cura: ¡la tarea! Es muy fácil, lo prometo.</span></div></div>
+  <button class="btn" data-go="homework">Okay, let's go ▸</button>
+ </div>
+</section>
+
+</main>
+
+<div id="music" title="Music"><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" id="mIcon"></svg></span><span id="mLbl">Lo-fi</span></div>
+<div id="ytp"><div id="ytplayer"></div></div>
+
+<script src="data.js"></script>
+<script>
+const S=t=>String(t).replace(/(?<=[а-яёА-ЯЁ])'/g,'́');
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const uniq=a=>[...new Set(a)];
+const $=id=>document.getElementById(id);
+const store={get(k,d){try{const v=localStorage.getItem('dv_'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('dv_'+k,JSON.stringify(v))}catch(e){}}};
+document.querySelectorAll('header h1,#v-start h2,#v-menu h1').forEach(e=>e.textContent=S(e.textContent));
+
+/* drawings */
+const sv=x=>`<svg viewBox="0 0 64 64"><g stroke="#22303f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none">${x}</g></svg>`;
+const D={
+'А':sv('<path d="M8 30a24 24 0 0 0 48 0z" fill="#E39A6B"/><path d="M8 30a24 24 0 0 0 48 0" stroke="#7FB08A" stroke-width="5"/><path d="M8 30h48"/><circle cx="24" cy="38" r="1.6" fill="#22303f"/><circle cx="32" cy="45" r="1.6" fill="#22303f"/><circle cx="40" cy="38" r="1.6" fill="#22303f"/>'),
+'Б':sv('<path d="M12 16c2 24 22 36 44 28-16 2-30-6-34-26z" fill="#FBE08A"/><path d="M12 16l-3-5"/>'),
+'В':sv('<path d="M32 6C22 24 16 32 16 40a16 16 0 0 0 32 0c0-8-6-16-16-32z" fill="#BFE3F5"/><path d="M23 42a8 8 0 0 0 6 8"/>'),
+'Г':sv('<path d="M10 32a22 20 0 0 1 44 0z" fill="#F4A9A0"/><path d="M26 32h12v18a6 6 0 0 1-12 0z" fill="#FFF3E0"/><circle cx="22" cy="24" r="3" fill="#fff"/><circle cx="38" cy="20" r="3" fill="#fff"/><circle cx="45" cy="28" r="2" fill="#fff"/>'),
+'Д':sv('<path d="M8 30L32 10l24 20z" fill="#F4A9A0"/><rect x="14" y="30" width="36" height="26" fill="#FFF3E0"/><rect x="28" y="40" width="9" height="16" fill="#F8D7B0"/><rect x="18" y="35" width="7" height="7" fill="#BFE3F5"/><rect x="40" y="35" width="6" height="7" fill="#BFE3F5"/>'),
+'Е':sv('<path d="M32 4L18 24h8L13 40h10L9 56h46L41 40h10L38 24h8z" fill="#A9DDB9"/><path d="M32 56v6"/>'),
+'Ё':sv('<ellipse cx="30" cy="40" rx="22" ry="15" fill="#E8C9A8"/><path d="M9 38l3-14 6 8 5-15 6 12 6-14 4 12 6-9 3 12" fill="#C9A47E"/><path d="M48 34l12 8-12 6z" fill="#F6E3CF"/><circle cx="52" cy="40" r="1.6" fill="#22303f"/><path d="M22 54v5M38 54v5"/>'),
+'Ж':sv('<ellipse cx="32" cy="40" rx="16" ry="18" fill="#F4A9A0"/><path d="M32 22v36"/><circle cx="32" cy="16" r="7" fill="#CFD9EA"/><circle cx="25" cy="36" r="2.5" fill="#22303f"/><circle cx="39" cy="36" r="2.5" fill="#22303f"/><circle cx="25" cy="47" r="2.5" fill="#22303f"/><circle cx="39" cy="47" r="2.5" fill="#22303f"/><path d="M27 10l-5-6M37 10l5-6M16 34l-9-4M16 46l-9 4M48 34l9-4M48 46l9 4"/>'),
+'З':sv('<path d="M5 32a27 22 0 0 1 54 0c-5-5-10-5-13.5 0-3.5-5-10-5-13.5 0-3.5-5-10-5-13.5 0-3.5-5-9-5-13.5 0z" fill="#D9C8F2"/><path d="M32 10v40a6 6 0 0 1-12 0"/>'),
+'И':sv('<path d="M10 56L50 12" stroke-width="3"/><ellipse cx="50" cy="12" rx="2.5" ry="5" transform="rotate(42 50 12)" fill="#fff"/><path d="M52 14C62 24 38 32 52 46s-8 14-18 10" stroke="#E58FA6"/>'),
+'Й':sv('<path d="M14 24h36l-4 34H18z" fill="#fff"/><path d="M14 24h36l-1.5 12h-33z" fill="#F4A9A0"/><ellipse cx="32" cy="24" rx="18" ry="4.5" fill="#FFF3E0"/><path d="M36 20l10-14"/>'),
+'К':sv('<path d="M12 28l2-18 12 8h12l12-8 2 18c2 20-10 28-20 28S10 48 12 28z" fill="#F8D7B0"/><circle cx="25" cy="32" r="2" fill="#22303f"/><circle cx="39" cy="32" r="2" fill="#22303f"/><path d="M30 38l2 2 2-2M32 40v3M28 45q4 3 8 0"/><path d="M8 38l10 2M8 46l10-2M56 38l-10 2M56 46l-10-2"/>'),
+'Л':sv('<ellipse cx="32" cy="36" rx="23" ry="15" fill="#FBE98A" transform="rotate(-18 32 36)"/><path d="M52 26l6-4M12 46l-6 4"/><path d="M28 20c6-8 14-8 19-6-2 8-11 10-19 6z" fill="#A9DDB9"/>'),
+'М':sv('<path d="M32 56C8 40 6 20 19 14c6-3 11 0 13 6 2-6 7-9 13-6 13 6 11 26-13 42z" fill="#D98C5F"/><path d="M18 24q2-4 6-4" stroke="#fff"/>'),
+'Н':sv('<path d="M30 8c0 14-2 26-8 34-3 4 0 8 6 8h14c6 0 9-4 6-8" fill="#F8D7B0"/><circle cx="29" cy="46" r="1.6" fill="#22303f"/><circle cx="41" cy="46" r="1.6" fill="#22303f"/>'),
+'О':sv('<path d="M14 46a10 10 0 0 1 2-20 14 14 0 0 1 26-3 11 11 0 0 1 6 23z" fill="#E7F3FB"/><path d="M20 54v4M32 54v6M44 54v4" stroke="#8FC6E8"/>'),
+'П':sv('<path d="M6 16q26-12 52 0L32 60z" fill="#FBE0A0"/><path d="M6 16q26-12 52 0" stroke="#E8B26A" stroke-width="5"/><circle cx="23" cy="26" r="4" fill="#F28B82"/><circle cx="40" cy="27" r="4" fill="#F28B82"/><circle cx="31" cy="40" r="3.5" fill="#F28B82"/>'),
+'Р':sv('<path d="M6 32c10-14 28-14 40 0-12 14-30 14-40 0z" fill="#BFE3F5"/><path d="M46 32l12-11v22z" fill="#9CCDE8"/><circle cx="16" cy="29" r="2" fill="#22303f"/><path d="M26 27q3 5 0 10"/>'),
+'С':sv('<circle cx="32" cy="32" r="12" fill="#FBE08A"/><path d="M32 6v8M32 50v8M6 32h8M50 32h8M13 13l6 6M45 45l6 6M13 51l6-6M45 19l6-6"/><circle cx="28" cy="30" r="1.4" fill="#22303f"/><circle cx="36" cy="30" r="1.4" fill="#22303f"/><path d="M27 35q5 4 10 0"/>'),
+'Т':sv('<rect x="8" y="30" width="48" height="26" rx="5" fill="#F9D5DC"/><path d="M8 38q6 6 12 0t12 0 12 0 12 0"/><rect x="29" y="16" width="6" height="14" fill="#CFD9EA"/><path d="M32 6q-5 6 0 9 5-3 0-9z" fill="#FBE08A"/>'),
+'У':sv('<ellipse cx="28" cy="44" rx="23" ry="14" fill="#FBE98A"/><circle cx="44" cy="24" r="11" fill="#FBE98A"/><path d="M53 23h9l-7 7z" fill="#F6B26B"/><circle cx="46" cy="21" r="1.7" fill="#22303f"/><path d="M14 44q9 9 20 0"/>'),
+'Ф':sv('<path d="M14 6v54"/><path d="M14 8h38l-9 11 9 11H14z" fill="#F4A9A0"/>'),
+'Х':sv('<path d="M6 36c0-16 12-22 26-22s26 6 26 22v16H6z" fill="#F0C58D"/><path d="M20 26l4 9M33 23l4 9M45 27l3 8"/>'),
+'Ц':sv('<path d="M32 28v32"/><path d="M32 48c-9-2-13-8-13-15 9 0 13 6 13 15z" fill="#A9DDB9"/><g fill="#D98C5F"><circle cx="32" cy="12" r="8"/><circle cx="43" cy="20" r="8"/><circle cx="39" cy="32" r="8"/><circle cx="25" cy="32" r="8"/><circle cx="21" cy="20" r="8"/></g><circle cx="32" cy="23" r="7" fill="#FBE08A"/>'),
+'Ч':sv('<path d="M8 24h38v10a19 19 0 0 1-38 0z" fill="#fff"/><path d="M46 28h4a6.5 6.5 0 0 1 0 13h-6"/><path d="M17 20c-4-5 3-7-1-13M30 20c-4-5 3-7-1-13" stroke="#E58FA6"/><path d="M6 56h46"/>'),
+'Ш':sv('<ellipse cx="32" cy="26" rx="18" ry="21" fill="#CFD9EA"/><path d="M32 47l-4 6h8z" fill="#E58FA6"/><path d="M32 53q-9 4 0 9"/><path d="M22 18q2-5 8-6" stroke="#fff"/>'),
+'Щ':sv('<rect x="8" y="30" width="48" height="12" rx="4" fill="#F8D7B0"/><path d="M14 42v12M22 42v12M30 42v12M38 42v12M46 42v12M54 42v10"/><rect x="22" y="12" width="28" height="9" rx="4" fill="#D98C5F"/><path d="M36 21v9"/>'),
+'Ы':sv('<path d="M6 30L58 14v36H6z" fill="#FBE08A"/><circle cx="20" cy="40" r="5" fill="#fff"/><circle cx="40" cy="34" r="4" fill="#fff"/><circle cx="48" cy="44" r="3" fill="#fff"/>'),
+'Э':sv('<path d="M8 22v20l12-4V26z" fill="#CFD9EA"/><path d="M20 26l8-10v32l-8-10"/><path d="M36 24q7 8 0 16M44 17q14 15 0 30M52 10q20 22 0 44"/>'),
+'Ю':sv('<path d="M20 10h24l14 44H6z" fill="#CFD9EA"/><path d="M20 10h24v7H20z" fill="#D98C5F"/><path d="M22 28l-4 22M32 28v22M42 28l4 22"/>'),
+'Я':sv('<path d="M32 22c-9-9-23-4-23 12s12 24 23 20c11 4 23-4 23-20S41 13 32 22z" fill="#F28B82"/><path d="M32 22c0-6 2-10 6-14"/><path d="M36 14c4-4 10-4 12-2-2 6-8 7-12 2z" fill="#A9DDB9"/><path d="M20 32q-2 5 0 9" stroke="#fff"/>'),
+'Ъ':sv('<circle cx="32" cy="32" r="22" fill="#F6E6EC"/><circle cx="24" cy="27" r="2" fill="#22303f"/><circle cx="40" cy="27" r="2" fill="#22303f"/><path d="M23 40h18"/>'),
+'Ь':sv('<circle cx="32" cy="32" r="22" fill="#F6E6EC"/><circle cx="24" cy="27" r="2" fill="#22303f"/><circle cx="40" cy="27" r="2" fill="#22303f"/><path d="M23 40q9 4 18 0"/>')
+};
+const IC={
+me:sv('<circle cx="32" cy="35" r="20" fill="#F1D9B8"/><path d="M11 33c0-17 10-24 22-24s21 8 20 25c-4-8-10-12-21-12S15 26 11 33z" fill="#7A5A55"/><circle cx="25" cy="37" r="1.9" fill="#22303f"/><circle cx="39" cy="37" r="1.9" fill="#22303f"/><path d="M26 45q6 5 12 0"/><path d="M20 41q-2 0-3 1M44 41q2 0 3 1" stroke="#D98C5F"/>'),
+book:sv('<path d="M6 12q13-5 26 4 13-9 26-4v38q-13-5-26 4-13-9-26-4z" fill="#CFD9EA"/><path d="M32 16v38"/>'),
+pencil:sv('<path d="M10 54l4-14 28-28 10 10-28 28z" fill="#FBE08A"/><path d="M14 40l10 10M38 16l10 10"/><path d="M10 54l4-14 10 10z" fill="#D98C5F"/>'),
+cards:sv('<rect x="8" y="14" width="34" height="42" rx="6" fill="#CFD9EA" transform="rotate(-8 25 35)"/><rect x="22" y="10" width="34" height="42" rx="6" fill="#F1D9B8" transform="rotate(7 39 31)"/><path d="M33 26q6-6 12 0M33 38h12"/>')
+};
+IC.play=sv('<path d="M20 10l34 22-34 22z" fill="#fff" stroke="#fff"/>');IC.gear=sv('<circle cx="32" cy="32" r="9" fill="#CFD9EA"/><path d="M32 6v8M32 50v8M6 32h8M50 32h8M13.6 13.6l5.7 5.7M44.7 44.7l5.7 5.7M13.6 50.4l5.7-5.7M44.7 19.3l5.7-5.7"/><circle cx="32" cy="32" r="17"/>');IC.hand=sv('<circle cx="32" cy="22" r="11" fill="#F1D9B8"/><path d="M10 56c0-14 10-22 22-22s22 8 22 22z" fill="#CFD9EA"/><path d="M28 24q4 4 8 0"/>');IC.zzz=sv('<circle cx="32" cy="36" r="20" fill="#F1D9B8"/><path d="M22 34q3 3 6 0M36 34q3 3 6 0"/><path d="M27 46q5 3 10 0"/><path d="M40 8h10l-10 10h10" stroke="#8A74BF"/>');
+IC.dict=sv('<rect x="10" y="8" width="38" height="48" rx="6" fill="#F1D9B8"/><path d="M18 18h22M18 26h22M18 34h14"/><circle cx="44" cy="42" r="10" fill="#fff"/><path d="M51 49l8 8"/>');t5.innerHTML=IC.dict;hav.innerHTML=IC.me;mb1.innerHTML=IC.play;mb2.innerHTML=IC.gear;mb3.innerHTML=IC.hand;boredIc.innerHTML=IC.zzz;mrow.innerHTML=['П','Я','Ч','К','Л'].map(x=>`<div class="dr">${D[x]}</div>`).join('');$('hero-av').innerHTML=IC.me;t1.innerHTML=IC.book;t2.innerHTML=IC.pencil;t3.innerHTML=IC.cards;
+
+/* ---------- data ---------- */
+const L=[
+['А',1,"арбу'з",'西瓜','watermelon','a','啊 ā'],
+['Б',2,"бана'н",'香蕉','banana','b','爸 bà'],
+['В',2,"вода'",'水','water','v','English v'],
+['Г',2,'гриб','蘑菇','mushroom','g','哥 gē'],
+['Д',2,'дом','家 / 房子','house','d','大 dà'],
+['Е',1,"е'ль",'杉树','fir tree','ye','耶 yē'],
+['Ё',1,'ёж','刺猬','hedgehog','yo','哟 yō'],
+['Ж',2,'жук','甲虫','beetle','zh','≈ 热 rè'],
+['З',2,'зонт','伞','umbrella','z','English z'],
+['И',1,"игла'",'针','needle','ee','衣 yī'],
+['Й',2,"йо'гурт",'酸奶','yogurt','y','short y 短'],
+['К',2,'кот','猫','cat','k','卡 kǎ'],
+['Л',2,"лимо'н",'柠檬','lemon','l','拉 lā'],
+['М',2,"ма'ма",'妈妈','mom','m','妈 mā'],
+['Н',2,'нос','鼻子','nose','n','那 nà'],
+['О',1,"о'блако",'云','cloud','o','哦 ò'],
+['П',2,"пи'цца",'披萨','pizza','p','怕 pà'],
+['Р',2,"ры'ба",'鱼','fish','r','rolled r 卷舌'],
+['С',2,"со'лнце",'太阳','sun','s','撒 sā'],
+['Т',2,'торт','蛋糕','cake','t','他 tā'],
+['У',1,"у'тка",'鸭子','duck','oo','乌 wū'],
+['Ф',2,'флаг','旗子','flag','f','发 fā'],
+['Х',2,'хлеб','面包','bread','kh','哈 hā'],
+['Ц',2,"цвето'к",'花','flower','ts','擦 cā'],
+['Ч',2,'чай','茶','tea','ch','≈ 七 qī'],
+['Ш',2,'шар','气球','balloon','sh','沙 shā'],
+['Щ',2,'щётка','刷子','brush','shch','long soft sh 长的软 sh'],
+['Ъ',4,'','','','—','hard sign 硬音符号 · silent 不发音'],
+['Ы',1,'сыр','奶酪','cheese','ih','deep i 深 i'],
+['Ь',4,"де'нь",'天','day','—','soft sign 软音符号 · silent 不发音'],
+['Э',1,"э'хо",'回声','echo','e','欸 ê'],
+['Ю',1,"ю'бка",'裙子','skirt','yu','优 yōu'],
+['Я',1,"я'блоко",'苹果','apple','ya','呀 yā']
+];
+const RW=[["ма'ма",'妈妈','mom'],["па'па",'爸爸','dad'],['кот','猫','cat'],['дом','家 / 房子','house'],['сок','果汁','juice'],['чай','茶','tea'],['рис','米饭','rice'],['суп','汤','soup'],["ко'фе",'咖啡','coffee'],["такси'",'出租车','taxi'],["метро'",'地铁','metro'],['банк','银行','bank'],['парк','公园','park'],["оте'ль",'酒店','hotel'],["шко'ла",'学校','school'],['да','是 / 对','yes'],['нет','不 / 没有','no']];
+
+const sign=x=>x[5]!='—';
+const letterB=x=>(sign(x)?x[5]+' · ':'')+(x[2]?S(x[2])+' ('+x[4]+')':'hard sign, silent');
+const C=(id,f,b,z,o={})=>Object.assign({id,f,b,z},o);
+const DECKS=[];
+const LESSONS=SYD.lessons;
+
+const PICS=SYD.pics;
+SYD.decks.forEach(d=>DECKS.push({id:d[0],lesson:d[1],title:d[2],zh:d[3],cards:d[4].map((e,i)=>C(d[0]+'_'+i,e.ru,e.en,e.ko,{rm:e.rm,img:e.img?PICS[e.img]:''}))}));
+const spkBtn=x=>`<button class="spk" data-spk="${String(x).replace(/"/g,'&quot;')}" title="Listen">${SPK}</button>`;
+const nrm=s=>S(s).replace(/́/g,'').toLowerCase().replace(/ё/g,'е').replace(/[^a-zа-я0-9áéíóúñü ]/g,' ').replace(/\s+/g,' ').trim();
+const DICT=[];(()=>{const seen=new Set();SYD.decks.forEach(d=>d[4].forEach(e=>{const k=nrm(e.ru);if(seen.has(k))return;seen.add(k);DICT.push({ru:S(e.ru),en:e.en,zh:e.ko,rm:e.rm,l:e.l,g:e.g,img:e.img?PICS[e.img]:'',kind:(/[?!.,]/.test(e.ru)||e.ru.trim().split(/\s+/).length>=3)?'phrase':'word'})}))})();
+let _s=20261127;const _r=()=>{_s|=0;_s=_s+0x6D2B79F5|0;let t=Math.imul(_s^_s>>>15,1|_s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const WODS=DICT.filter(e=>e.kind=='word'&&e.img);for(let i=WODS.length-1;i>0;i--){const j=Math.floor(_r()*(i+1));[WODS[i],WODS[j]]=[WODS[j],WODS[i]]}
+function todayWord(){const d=new Date();const day=Math.floor((d.getTime()-d.getTimezoneOffset()*60000)/864e5);return{w:WODS[day%WODS.length],n:day%WODS.length+1}}
+const hintHtml=e=>`<div class="rm">${e.rm||''}</div>`;
+let dkind='all',dshown=60,dpic=false;
+const DKINDS=[['all','All'],['word','Words'],['phrase','Phrases']];
+function drawDict(reset){
+ if(!dl.options.length){dl.innerHTML='<option value="0">All lessons</option>'+uniq(DICT.map(e=>e.l)).sort((a,b)=>a-b).map(n=>`<option value="${n}">Lesson ${n}</option>`).join('')}
+ dk.innerHTML=DKINDS.map(k=>`<button class="chip ${dkind==k[0]?'on':''}" data-k="${k[0]}">${k[1]}</button>`).join('')+`<button class="chip ${dpic?'on':''}" data-k="pic">With pictures</button>`;
+ if(reset)dshown=60;const q=nrm(dq.value),Ls=+dl.value;
+ const list=DICT.filter(e=>(dkind=='all'||e.kind==dkind)&&(!Ls||e.l==Ls)&&(!dpic||e.img)&&(!q||nrm(e.ru).includes(q)||nrm(e.en).includes(q)||nrm(e.zh).includes(q)));
+ dcount.textContent=list.length+' results';
+ dgrid.innerHTML=list.slice(0,dshown).map(e=>`<div class="dc">${e.img?`<div class="dr">${e.img}</div>`:''}<div class="dt"><div class="dru">${S(e.ru)} ${spkBtn(e.ru)}</div>${hintHtml(e)}<div class="den">${e.en} <span class="zh" style="color:var(--muted)">${e.zh||''}</span></div><div class="dm"><span>lesson ${e.l}</span></div></div></div>`).join('');
+ dmore.style.display=list.length>dshown?'':'none'}
+dq.oninput=()=>drawDict(true);dl.onchange=()=>drawDict(true);
+dk.onclick=e=>{const b=e.target.closest('[data-k]');if(!b)return;if(b.dataset.k=='pic')dpic=!dpic;else dkind=b.dataset.k;drawDict(true)};
+dmore.onclick=()=>{dshown+=60;drawDict()};
+
+/* ---------- audio (voice: Xenia) ---------- */
+const AB='audio/';
+function hk(s){s=s.replace(/[\u0301'…?!.,]/g,'').replace(/\s+/g,' ').trim().toLowerCase();let h=0x811c9dc5;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,0x01000193)}return ('00000000'+(h>>>0).toString(16)).slice(-8)}
+let _a=null;
+function playUrl(u,fb){try{if(_a)_a.pause()}catch(e){}_a=new Audio(u);if(store.get('slow',false))_a.playbackRate=.7;_a.onerror=()=>{if(fb)fb()};_a.play().catch(()=>{})}
+function fbSpeak(){}
+function snd(){}
+function say(x){x=(x||'').replace(/…/g,'').trim();if(!x)return;const n=x.replace(/[\u0301']/g,'');if(n.length==1&&/[а-яё]/i.test(n))return;playUrl(AB+'w4/'+hk(x)+'.mp3',()=>fbSpeak(n))}
+const SPK='<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></svg>';
+function sayCard(c){if(c.big){if(c.w)say(c.w)}else say(c.f)}
+document.addEventListener('click',e=>{const s=e.target.closest('[data-spk]');if(s){e.stopPropagation();say(s.dataset.spk);return}const n=e.target.closest('[data-snd]');if(n){e.stopPropagation();snd(n.dataset.snd)}},true);
+
+/* ---------- nav / views ---------- */
+const VIEWS=[['menu','Меню\'','Menu','Menú'],['start','Нача\'ть','Start','Empezar'],['lessons','Уро\'ки','Lessons','Lecciones'],['homework','Дома\'шка','Homework','Tareas'],['dict','Слова\'рь','Dictionary','Diccionario'],['practice','Пра\'ктика','Practice','Práctica'],['settings','Настро\'йки','Settings','Ajustes'],['about','Об а\'вторе','About','Sobre mí']];
+nav.innerHTML='<div class="navhead"><div class="hand">Дэвид</div><small>Russian with Artemiy</small></div>'+VIEWS.filter(v=>v[0]!='menu').map(v=>`<button class="pill" data-v="${v[0]}">${S(v[1])}<small>${v[2]} <span class="zh">${v[3]}</span></small></button>`).join('')+'<button class="pill" data-v="menu">Меню<small>Main menu <span class="zh">Menú principal</span></small></button>';
+const setNav=o=>{document.body.classList.toggle('navopen',o)};burger.onclick=()=>setNav(!document.body.classList.contains('navopen'));scrim.onclick=()=>setNav(false);
+function drawHeader(){const hw=store.get('hw',{}),dn=HW.filter(h=>h.tasks.every((t,i)=>hw[h.id+'_'+i])).length,lr=store.get('learned',[]).length,tk=Object.values(hw).filter(Boolean).length,xp=lr*2+tk*10,lv=Math.floor(xp/60)+1,pr=Math.round((xp%60)/60*100);
+ hstats.innerHTML=`<span class="hs"><b>Level ${lv}</b><i class="lvbar"><u style="width:${pr}%"></u></i></span><span class="hs"><b>${LESSONS.length}</b> lessons</span><span class="hs"><b>${dn}/${HW.length}</b> homework</span>`}
+function show(v){setNav(false);drawHeader();document.body.classList.toggle('menu',v=='menu');document.querySelectorAll('.view').forEach(s=>s.classList.toggle('on',s.id=='v-'+v));nav.querySelectorAll('.pill').forEach(p=>p.classList.toggle('on',p.dataset.v==v));store.set('view',v);window.scrollTo({top:0});if(v=='start')drawStart();if(v=='homework')drawHw();if(v=='lessons')drawLessons();if(v=='dict')drawDict(true)}
+nav.onclick=e=>{const b=e.target.closest('.pill');if(b)show(b.dataset.v)};
+document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)show(b.dataset.go)});
+
+/* ---------- start ---------- */
+function drawStart(){
+ const last=store.get('last',null);const l=last&&LESSONS.find(x=>x.n==last);t1s.textContent=l?`Lesson ${l.n} · ${l.title}`:'Lesson 1 · Greetings and names';
+ const hw=store.get('hw',{});const dn=HW.filter(h=>h.tasks.every((t,i)=>hw[h.id+'_'+i])).length;t2s.textContent=`${dn} of ${HW.length} homeworks done`;
+ const lr=store.get('learned',[]);t3s.textContent=`${lr.length} cards learned so far`;t5s.textContent=`${DICT.length} words and phrases`;
+ const tw=todayWord(),w=tw.w;wod.innerHTML=S(w.ru)+' '+spkBtn(w.ru);wods.innerHTML=`${w.en} <span class="zh">· ${w.zh||''}</span><div style="margin-top:6px;font-size:12px;font-weight:800">New word every day · word ${tw.n} of ${WODS.length}</div>`;wodp.innerHTML=w.img||'';wodp.style.display=w.img?'':'none'}
+
+/* ---------- lessons ---------- */
+function drawLessons(){
+ lessonCards.innerHTML=LESSONS.map(l=>`<div class="card lcard"><div class="num">${l.n}</div><div class="tx"><h3>${S(l.title)} <span class="zh" style="font-weight:600;color:var(--muted)">${l.zh}</span></h3><div class="sub" style="margin:0">${l.sub}</div></div><button class="btn" data-open="${l.id}">Open ▸</button></div>`).join('')+`<div class="card lcard lock"><div class="num">${LESSONS.length+1}</div><div class="tx"><h3>Next lesson</h3><div class="sub" style="margin:0">It will appear here after we study it together. Aparecerá aquí después de la clase.</div></div></div>`;
+ lessonList.style.display='';lessonView.style.display='none';lframe.src='about:blank'}
+lessonCards.onclick=e=>{const b=e.target.closest('[data-open]');if(!b)return;const l=LESSONS.find(x=>x.id==b.dataset.open);store.set('last',l.n);ltitle.textContent='Lesson '+l.n+' · '+S(l.title);lframe.src=l.file;lessonList.style.display='none';lessonView.style.display=''};
+lback.onclick=drawLessons;
+addEventListener('message',e=>{const m=e.data||{};if(m.go){show(m.go)}if(m.step){store.set('l1step',m.step)}});
+lframe.addEventListener('load',()=>{pushPrefs()});
+
+/* ---------- mcq engine ---------- */
+function mcq(el,qs,done,opt={}){
+ let i=0,sc=0,lock=false;
+ function draw(){
+  if(i>=qs.length){el.innerHTML=`<div class="res"><big>${sc} / ${qs.length}</big>${sc>=qs.length-1?'Excellent! ¡Excelente!':sc>=qs.length/2?'Good! ¡Bien!':'Try again, you can do it! ¡Inténtalo otra vez!'}</div><p><button class="btn" id="again">Again Otra vez</button></p>`;el.querySelector('#again').onclick=()=>{i=0;sc=0;draw()};if(done)done(sc,qs.length);return}
+  const q=qs[i],opts=shuffle([q.ok,...q.bad]);lock=false;
+  el.innerHTML=`<div class="qn">${i+1} / ${qs.length}</div>${q.p}<div class="qo">${opts.map((o,k)=>`<button class="opt" data-k="${k}">${o}</button>`).join('')}</div>`;
+  el.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(lock)return;lock=true;const ok=opts[+b.dataset.k]===q.ok;if(q.say)say(q.say);if(q.sn)snd(q.sn);if(ok){b.classList.add('ok');sc++;if(q.id&&opt.learn)learn(q.id)}else{b.classList.add('no');el.querySelectorAll('.opt').forEach(x=>{if(opts[+x.dataset.k]===q.ok)x.classList.add('ok')})}setTimeout(()=>{i++;draw()},ok?800:1500)})}
+ draw()}
+function learn(id){const l=store.get('learned',[]);if(!l.includes(id)){l.push(id);store.set('learned',l)}}
+
+/* ---------- homework ---------- */
+const esc=s=>String(s).replace(/"/g,'&quot;');
+const isPhr=e=>e.kind=='phrase';
+const LBTN=x=>`<div class="row" style="justify-content:center;margin:8px 0"><button class="btn" data-spk="${esc(x)}">${SPK} Listen</button></div>`;
+const listenGen=(items,n)=>()=>shuffle(items).slice(0,n).map(x=>({p:LBTN(x.ru)+`<div class="q2">What does it mean?</div>`,ok:x.en,bad:shuffle(uniq(items.map(y=>y.en)).filter(e=>e!=x.en)).slice(0,2)}));
+const meanGen=(items,n)=>()=>shuffle(items).slice(0,n).map(x=>({p:`<div class="bigq" style="font-size:26px">${x.en}</div><div class="q2">How do you say it in Russian?</div>`,ok:S(x.ru),bad:shuffle(uniq(items.map(y=>S(y.ru))).filter(r=>r!=S(x.ru))).slice(0,2),say:x.ru}));
+const picGen=(items,n)=>()=>{const cn={};items.forEach(e=>{if(e.img)cn[e.img]=(cn[e.img]||0)+1});const w=items.filter(e=>e.img&&cn[e.img]==1);return shuffle(w).slice(0,n).map(x=>({p:`<div class="dr" style="width:110px;height:110px;margin:6px auto">${x.img}</div><div class="q2">What is it in Russian?</div>`,ok:S(x.ru),bad:shuffle(uniq(w.map(y=>S(y.ru))).filter(r=>r!=S(x.ru))).slice(0,2),say:x.ru}))};
+const pairsOf=(items,n)=>{const s=new Set();return shuffle(items).filter(x=>{const k=x.en.toLowerCase();if(s.has(k))return false;s.add(k);return true}).slice(0,n).map(x=>[x.ru,x.en])};
+const buildOf=(items,n)=>shuffle(items.filter(x=>{const w=S(x.ru).replace(/[…?!.,]/g,'').trim().split(/\s+/);return w.length>=2&&w.length<=6})).slice(0,n).map(x=>[x.ru,x.en,'']);
+const Lr=(a,b)=>DICT.filter(e=>e.l>=a&&e.l<=b),Wd=a=>a.filter(e=>!isPhr(e)),Ph=a=>a.filter(isPhr),Pw=a=>a.filter(e=>e.img&&!isPhr(e));
+const GN=[['суп','soup','м'],['чай','tea','м'],['сок','juice','м'],['сыр','cheese','м'],['хлеб','bread','м'],['торт','cake','м'],['салат','salad','м'],['банан','banana','м'],['ко́фе','coffee','м'],['ры́ба','fish','ж'],['пи́цца','pizza','ж'],['ку́рица','chicken','ж'],['вода́','water','ж'],['карто́шка','potato','ж'],['молоко́','milk','с'],['мя́со','meat','с'],['яйцо́','egg','с'],['я́блоко','apple','с']];
+const genderGen=n=>()=>shuffle(GN).slice(0,n).map(x=>({p:`<div class="bigq">${S(x[0])}</div><div class="q2">${x[1]}</div><div class="q2">Which gender? <b>м</b> masculine · <b>ж</b> feminine · <b>с</b> neuter</div>`,ok:x[2],bad:['м','ж','с'].filter(g=>g!=x[2]),say:x[0]}));
+const AU=[['chicken','ку́рицу','ку́рица'],['pizza','пи́ццу','пи́цца'],['water','во́ду','вода́'],['fish','ры́бу','ры́ба'],['potato','карто́шку','карто́шка'],['soup','суп','су́пу'],['cheese','сыр','сы́ру'],['egg','яйцо́','яйцу́'],['coffee','ко́фе','ко́фу'],['bread','хлеб','хле́бу']];
+const auGen=n=>()=>shuffle(AU).slice(0,n).map(x=>({p:`<div class="bigq" style="font-size:30px">Я ем ___ .</div><div class="q2">${x[0]} · fill the blank (after the verb: -а → -у)</div>`,ok:S(x[1]),bad:[S(x[2])],say:'Я ем '+x[1]}));
+const VB2=[['Я ___ суп.','ем',['пью','хочу']],['Я ___ воду.','пью',['ем','готовлю']],['Ты ___ кофе?','пьёшь',['ешь','хочешь']],['Ты ___ сыр?','ешь',['пьёшь','хочешь']],['Мы ___ чай.','пьём',['едим','хотим']],['Они ___ пиццу.','едят',['пьют','хотят']],['Я ___ пить.','хочу',['ем','пью']],['Моя мама ___ суп.','готовит',['ест','пьёт']],['Вы ___ сок?','пьёте',['едите','готовите']],['Он ___ рыбу.','ест',['пьёт','хочет']]];
+const vbGen=n=>()=>shuffle(VB2).slice(0,n).map(x=>({p:`<div class="bigq" style="font-size:30px">${S(x[0])}</div><div class="q2">eat · drink · want · cook: choose the verb</div>`,ok:S(x[1]),bad:x[2].map(S)}));
+const PD=[['In the morning','у́тром'],['In the afternoon','днём'],['In the evening','ве́чером'],['At night','но́чью']];
+const pdGen=n=>()=>shuffle(PD.concat(PD)).slice(0,n).map(x=>({p:`<div class="bigq" style="font-size:30px">${x[0]}</div><div class="q2">How do you say it in Russian?</div>`,ok:S(x[1]),bad:PD.filter(y=>y[1]!=x[1]).map(y=>S(y[1])),say:x[1]}));
+const TS=[['Э́то пи́цца. Она́ ___.','вку́сная',['вку́сный','вку́сное']],['Э́то суп. Он ___.','вку́сный',['вку́сная','вку́сное']],['Э́то молоко́. Оно́ ___.','вку́сное',['вку́сный','вку́сная']],['Э́то ры́ба. Она́ ___.','вку́сная',['вку́сный','вку́сное']],['Э́то сыр. Он ___.','вку́сный',['вку́сная','вку́сное']],['Э́то я́блоко. Оно́ ___.','вку́сное',['вку́сный','вку́сная']]];
+const tsGen=n=>()=>shuffle(TS).slice(0,n).map(x=>({p:`<div class="bigq" style="font-size:28px">${S(x[0])}</div><div class="q2">tasty: boy, girl or thing?</div>`,ok:S(x[1]),bad:x[2].map(S)}));
+const L1=Lr(1,1),L2=Lr(2,2),L34=Lr(3,4),L56=Lr(5,6),L78=Lr(7,8),L9=Lr(9,9),ALLW=Wd(DICT),ALLP=Ph(DICT);
+const chk=(n,h)=>({t:'check',n,title:'Say it out loud',zh:'',help:'Tick a box after you say each one: '+h});
+const HW=[
+ {id:'h1',title:'Homework 1',zh:'',sub:'Lessons 1 and 2: greetings, names, numbers and age. About 15 minutes.',tasks:[
+  {t:'mcq',title:'Listen and choose (1)',help:'Press the speaker, then choose the meaning.',gen:listenGen(Ph(L1),10)},
+  {t:'mcq',title:'How do you say it? (1)',gen:meanGen(Ph(L1),10)},
+  {t:'match',title:'Match the phrases',pairs:pairsOf(Ph(L1),8)},
+  {t:'mcq',title:'What number is it?',help:'Look at the number and choose the Russian word.',gen:picGen(Pw(L2),12)},
+  {t:'mcq',title:'Listen and choose (numbers)',help:'Press the speaker, then choose the number.',gen:listenGen(Wd(L2).filter(e=>/^\d+$/.test(e.en)),10)},
+  {t:'mcq',title:'How do you say it? (numbers)',gen:meanGen(Wd(L2),10)},
+  {t:'build',title:'Build the phrase',items:buildOf(L1.concat(L2),6)},
+  chk(3,'«Меня́ зову́т Дэ́вид.» · «Я из Ирла́ндии.» · «Мне семна́дцать лет.»')]},
+ {id:'h2',title:'Homework 2',zh:'',sub:'Lessons 3 and 4: brothers, sisters, friends and names. About 15 minutes.',tasks:[
+  {t:'mcq',title:'What is it? (family)',gen:picGen(Pw(L34),12)},
+  {t:'mcq',title:'Listen and choose',help:'Press the speaker, then choose the meaning.',gen:listenGen(L34,12)},
+  {t:'mcq',title:'How do you say it?',gen:meanGen(Ph(L34),10)},
+  {t:'match',title:'Match the phrases (1)',pairs:pairsOf(Ph(Lr(3,3)),8)},
+  {t:'match',title:'Match the phrases (2)',pairs:pairsOf(Ph(Lr(4,4)),8)},
+  {t:'build',title:'Build the sentence',items:buildOf(L34,7)},
+  chk(3,'«У меня́ есть ста́ршая сестра́.» · «Как его́ зову́т?» · «Мою́ ма́му зову́т А́нна.»')]},
+ {id:'h3',title:'Homework 3',zh:'',sub:'Lessons 5 and 6: live, work, study, love, play, read, listen, watch. About 20 minutes.',tasks:[
+  {t:'mcq',title:'What is it?',gen:picGen(Pw(L56),14)},
+  {t:'mcq',title:'Listen and choose (1)',help:'Press the speaker, then choose the meaning.',gen:listenGen(L56,12)},
+  {t:'mcq',title:'How do you say it? (1)',gen:meanGen(Ph(L56),12)},
+  {t:'match',title:'Match the sentences (1)',pairs:pairsOf(Ph(Lr(5,5)),8)},
+  {t:'match',title:'Match the sentences (2)',pairs:pairsOf(Ph(Lr(6,6)),8)},
+  {t:'mcq',title:'Listen and choose (2)',help:'Press the speaker, then choose the meaning.',gen:listenGen(Ph(L56),10)},
+  {t:'build',title:'Build the sentence',items:buildOf(L56,8)},
+  chk(3,'«Я люблю́ игра́ть в футбо́л.» · «Я слу́шаю му́зыку.» · «Я никогда́ не смотрю́ фи́льмы но́чью.»')]},
+ {id:'h4',title:'Homework 4',zh:'',sub:'Lessons 7 and 8: genders, I do not like, I love to eat, my home. About 15 minutes.',tasks:[
+  {t:'mcq',title:'What is it?',gen:picGen(Pw(L78),10)},
+  {t:'mcq',title:'Listen and choose',help:'Press the speaker, then choose the meaning.',gen:listenGen(L78,12)},
+  {t:'mcq',title:'How do you say it?',gen:meanGen(Ph(L78),10)},
+  {t:'match',title:'Match the sentences',pairs:pairsOf(Ph(L78),8)},
+  {t:'build',title:'Build the sentence',items:buildOf(L78,6)},
+  chk(3,'«Мне не нра́вится ку́рица.» · «Я люблю́ есть.» · «Я живу́ в большо́м до́ме.»')]},
+ {id:'h5',title:'BIG DRILL · lessons 1–8',zh:'',sub:'Everything from lessons 1 to 8 in one long drill. About 35 minutes.',tasks:[
+  {t:'mcq',title:'What is it? (all pictured words)',help:'Numbers, family, verbs, places and food together.',gen:picGen(Pw(Lr(1,8)),25)},
+  {t:'mcq',title:'Listen and choose (words)',help:'Press the speaker, then choose the meaning.',gen:listenGen(Wd(Lr(1,8)),20)},
+  {t:'mcq',title:'Listen and choose (phrases)',help:'Press the speaker, then choose the meaning.',gen:listenGen(Ph(Lr(1,8)),20)},
+  {t:'mcq',title:'How do you say it? (phrases)',gen:meanGen(Ph(Lr(1,8)),20)},
+  {t:'match',title:'Match: lessons 1–2',pairs:pairsOf(Lr(1,2),8)},
+  {t:'match',title:'Match: lessons 3–4',pairs:pairsOf(L34,8)},
+  {t:'match',title:'Match: lessons 5–6',pairs:pairsOf(L56,8)},
+  {t:'match',title:'Match: lessons 7–8',pairs:pairsOf(L78,8)},
+  {t:'mcq',title:'Which gender?',gen:genderGen(10)},
+  {t:'build',title:'Build the sentence (1)',items:buildOf(Lr(1,4),8)},
+  {t:'build',title:'Build the sentence (2)',items:buildOf(Lr(5,8),8)},
+  chk(5,'«Здра́вствуйте!» · «Меня́ зову́т Дэ́вид.» · «У меня́ есть брат.» · «Я люблю́ слу́шать му́зыку.» · «Я ем ку́рицу.»')]},
+ {id:'h6',title:'Homework 6 · food, drinks, meals',zh:'',sub:'Lesson 9: every food and drink word, я ем, я пью, parts of the day, meals, вкусный and polite phrases. Take your time. About 35 minutes.',tasks:[
+  {t:'mcq',title:'What is it? (food and drinks)',help:'Look at the picture and choose the Russian word.',gen:picGen(Pw(L9),20)},
+  {t:'mcq',title:'Listen and choose (words)',help:'Press the speaker, then choose the meaning.',gen:listenGen(Wd(L9),14)},
+  {t:'mcq',title:'How do you say it? (words)',gen:meanGen(Wd(L9),14)},
+  {t:'mcq',title:'Which gender?',help:'м = masculine, ж = feminine, с = neuter.',gen:genderGen(14)},
+  {t:'mcq',title:'I eat ___ (-а → -у)',gen:auGen(10)},
+  {t:'mcq',title:'Eat, drink, want or cook?',gen:vbGen(10)},
+  {t:'match',title:'Match the words',pairs:pairsOf(Wd(L9),8)},
+  {t:'mcq',title:'Parts of the day',gen:pdGen(8)},
+  {t:'mcq',title:'Tasty: boy, girl or thing?',gen:tsGen(6)},
+  {t:'mcq',title:'Listen and choose (sentences)',help:'Press the speaker, then choose the meaning.',gen:listenGen(Ph(L9),14)},
+  {t:'mcq',title:'How do you say it? (sentences)',gen:meanGen(Ph(L9),14)},
+  {t:'match',title:'Match the sentences',pairs:pairsOf(Ph(L9),8)},
+  {t:'build',title:'Build the sentence (1)',items:buildOf(L9,8)},
+  {t:'build',title:'Build the sentence (2)',items:buildOf(L9,8)},
+  chk(5,'«Я ем на за́втрак хлеб.» · «У́тром я пью ко́фе.» · «Я не о́чень люблю́ пить чай.» · «Э́то пи́цца. Она́ вку́сная.» · «Прия́тного аппети́та!»')]}
+];
+function drawHw(){
+ const hw=store.get('hw',{});
+ hwView.style.display='none';hwList.style.display='';const lastI=HW.length-1;const ord=[lastI].concat(HW.map((h,i)=>i).filter(i=>i!=lastI));
+ hwList.innerHTML=ord.map(hi=>{const h=HW[hi],d=h.tasks.filter((t,i)=>hw[h.id+'_'+i]).length,nw=hi==lastI;return `<div class="card lcard ${nw?'latest':''}">${nw?'<span class="newtag">NEW · latest homework Última tarea</span>':''}<div class="num">${hi+1}</div><div class="tx"><h3>${h.title} <span class="zh" style="font-weight:600;color:var(--muted)">${h.zh}</span></h3><div class="sub" style="margin:0">${h.sub}</div><span class="badge ${d==h.tasks.length?'ok':''}" style="margin-top:6px">${d} / ${h.tasks.length} done</span></div><button class="btn" data-hw="${hi}">${d==h.tasks.length?'Again ▸':'Open ▸'}</button></div>`}).join('')}
+hwList.onclick=e=>{const b=e.target.closest('[data-hw]');if(b)openHw(+b.dataset.hw)};
+function setDone(key,v=true){const hw=store.get('hw',{});hw[key]=v;store.set('hw',hw)}
+function openHw(hi){
+ const h=HW[hi];hwList.style.display='none';hwView.style.display='';
+ hwView.innerHTML=`<div class="lessonbar"><button class="btn ghost sm" id="hback">← All homework</button><span class="badge">${h.title}</span></div>`+h.tasks.map((t,i)=>`<div class="card hw" id="hw${i}"><div class="tick"></div><div class="body"><h3>${i+1}. ${S(t.title)} <span class="zh" style="font-weight:600;color:var(--muted)">${t.zh}</span></h3>${t.help?`<div class="sub" style="margin-bottom:6px">${t.help}</div>`:''}<div id="hb${i}"></div></div></div>`).join('');
+ $('hback').onclick=drawHw;
+ const mark=i=>{setDone(h.id+'_'+i);$('hw'+i).classList.add('done')};
+ h.tasks.forEach((t,i)=>{
+  const box=$('hb'+i);if(store.get('hw',{})[h.id+'_'+i])$('hw'+i).classList.add('done');
+  if(t.t=='check'){const st=store.get('hwc_'+h.id+'_'+i,0);box.innerHTML=`<div class="cb">${Array.from({length:t.n},(_,k)=>`<i class="${k<st?'on':''}" data-k="${k}"></i>`).join('')}</div>`;
+   box.onclick=e=>{const c=e.target.closest('i');if(!c)return;const on=box.querySelectorAll('i.on').length;const k=+c.dataset.k;const nv=(k<on)?k:k+1;box.querySelectorAll('i').forEach((x,j)=>x.classList.toggle('on',j<nv));store.set('hwc_'+h.id+'_'+i,nv);if(nv>=t.n)mark(i);else{setDone(h.id+'_'+i,false);$('hw'+i).classList.remove('done')}}}
+  if(t.t=='pics'){
+   const items=shuffle(L.map(x=>({u:x[0],w:x[2]||'',en:x[4]||'',zh:x[3]||''})));let k=0,sc=0,lock=false;
+   const draw=()=>{
+    if(k>=items.length){box.innerHTML=`<div class="res"><big>${sc} / ${items.length}</big>${sc>=items.length*0.8?'Excellent! ¡Excelente!':'Good! Try again for a better score. Bien, ¡otra vez!'}</div><p><button class="btn" id="pa${i}">Again Otra vez</button></p>`;$('pa'+i).onclick=()=>{k=0;sc=0;items.sort(()=>Math.random()-.5);draw()};mark(i);return}
+    const it=items[k];lock=false;
+    const opts=shuffle([it.u,...shuffle(L.map(x=>x[0]).filter(u=>u!=it.u)).slice(0,3)]);
+    box.innerHTML=`<div class="qn">${k+1} / ${items.length}</div><div class="dr" style="width:112px;height:112px;margin:6px auto">${D[it.u]}</div><div class="q2">Which letter is this? ¿Qué letra es?</div><div class="row" style="justify-content:center;margin-bottom:6px"><button class="btn ghost sm" id="hn${i}">Hint Pista</button>${it.w?`<button class="btn ghost sm" id="hr${i}">${SPK} <span>Hear the word Escuchar</span></button>`:''}</div><div class="q2" id="hx_${i}" style="min-height:26px;font-weight:800"></div><div class="qo">${opts.map(o=>`<button class="opt" data-o="${o}">${o} ${o.toLowerCase()}</button>`).join('')}</div>`;
+    const show=()=>{$('hx_'+i).innerHTML=it.w?`${S(it.w)} <span class="zh" style="font-weight:600;color:var(--muted)">· ${it.en} · ${it.zh}</span>`:'hard sign, a silent letter 硬音符号'};
+    $('hn'+i).onclick=show;if($('hr'+i))$('hr'+i).onclick=()=>say(S(it.w));
+    box.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(lock)return;lock=true;const ok=b.dataset.o==it.u;if(ok){b.classList.add('ok');sc++}else{b.classList.add('no');box.querySelectorAll('.opt').forEach(x=>{if(x.dataset.o==it.u)x.classList.add('ok')})}show();if(it.w)say(S(it.w));setTimeout(()=>{k++;draw()},ok?1500:2400)})};
+   draw()}
+  if(t.t=='match'){const pairs=t.pairs||HWG;let L1=shuffle(pairs.map((p,k)=>k)),R1=shuffle(pairs.map((p,k)=>k)),sel=null,got=0;
+   box.innerHTML=`<div class="mg" id="mg${i}">${L1.map(k=>`<button class="mi" data-s="l" data-k="${k}">${S(pairs[k][0])}</button>`).join('')}${R1.map(k=>`<button class="mi" data-s="r" data-k="${k}">${pairs[k][1].split(' · ')[0]}<small class="zh">${pairs[k][1].split(' · ')[1]||''}</small></button>`).join('')}</div>`;
+   // grid: put left & right alternately
+   const mg=$('mg'+i);const ls=[...mg.querySelectorAll('[data-s=l]')],rs=[...mg.querySelectorAll('[data-s=r]')];mg.innerHTML='';ls.forEach((l,k)=>{mg.appendChild(l);mg.appendChild(rs[k])});
+   mg.onclick=e=>{const b=e.target.closest('.mi');if(!b||b.classList.contains('done'))return;if(b.dataset.s=='l')say(pairs[+b.dataset.k][0]);if(!sel||sel.dataset.s==b.dataset.s){if(sel)sel.classList.remove('sel');sel=b;b.classList.add('sel');return}
+    const ok=sel.dataset.k==b.dataset.k;if(ok){sel.classList.remove('sel');sel.classList.add('done');b.classList.add('done');got++;sel=null;if(got==pairs.length)mark(i)}else{const a=sel;a.classList.remove('sel');a.classList.add('bad');b.classList.add('bad');sel=null;setTimeout(()=>{a.classList.remove('bad');b.classList.remove('bad')},600)}}}
+  if(t.t=='sounds'){const qs=shuffle(LET).slice(0,6).map(l=>({p:`<div class="bigq big">${l}${l.toLowerCase()}</div><div class="q2">Which sound? ¿Qué sonido?</div>`,ok:SND[l],bad:shuffle(uniq(Object.values(SND)).filter(s=>s!=SND[l])).slice(0,2)}));mcq(box,qs,()=>mark(i))}
+  if(t.t=='tyvy'){const qs=(t.list||TY).map(s=>({p:`<div class="bigq" style="font-size:28px">${s[0]}</div><div class="q2 zh">${s[1]} — you say… ？</div>`,ok:s[2]=='ты'?'ты · informal':'вы · formal',bad:[s[2]=='ты'?'вы · formal':'ты · informal'],say:s[2]}));mcq(box,qs,()=>mark(i))}
+  if(t.t=='mcq'){mcq(box,t.gen(),()=>mark(i))}
+  if(t.t=='build'){let k=0,sc=0;const its=shuffle(t.items);const draw=()=>{
+    if(k>=its.length){box.innerHTML=`<div class="res"><big>${sc} / ${its.length}</big>${sc>=its.length-1?'Excellent! ¡Excelente!':'Good! ¡Bien!'}</div><p><button class="btn" id="bb${i}">Again Otra vez</button></p>`;$('bb'+i).onclick=()=>{k=0;sc=0;draw()};mark(i);return}
+    const c=its[k],target=S(c[0]).replace(/[…?!.,]/g,'').trim().split(/\s+/),tiles=shuffle(target.map((w,x)=>({w,x})));let ans=[];
+    box.innerHTML=`<div class="qn">${k+1} / ${its.length}</div><div class="bigq" style="font-size:26px">${c[1]}</div><div class="q2 zh">${c[2]}</div><div class="ans" id="an${i}"></div><div class="tiles2" id="tl${i}">${tiles.map(x=>`<button class="tl2" data-k="${x.x}">${x.w}</button>`).join('')}</div><button class="btn ghost sm" id="cl${i}">Clear Borrar</button>`;
+    const upd=()=>{$('an'+i).innerHTML=ans.map(a=>`<span class="tl2">${a.w}</span>`).join('');$('tl'+i).querySelectorAll('.tl2').forEach((b,ix)=>b.classList.toggle('used',ans.some(a=>a.id==ix)));
+     if(ans.length==target.length){const good=ans.every((a,x)=>a.w==target[x]);$('an'+i).classList.add(good?'okk':'bad');if(good){sc++;say(c[0])}else $('an'+i).insertAdjacentHTML('afterend',`<div class="q2">${S(c[0])}</div>`);setTimeout(()=>{k++;draw()},good?900:1700)}};
+    $('tl'+i).onclick=e=>{const b=e.target.closest('.tl2');if(!b||b.classList.contains('used')||ans.length>=target.length)return;ans.push({w:b.textContent,id:[...$('tl'+i).children].indexOf(b)});upd()};
+    $('cl'+i).onclick=()=>{ans=[];upd()}};draw()}
+  if(t.t=='type'){const v=store.get('hwn_'+h.id,'');box.innerHTML=`<input class="tin" id="ni${i}" placeholder="Мин Сяо" value="${v}"><div class="out" id="no${i}"></div>`;
+   const upd=()=>{const x=$('ni'+i).value.trim();store.set('hwn_'+h.id,x);$('no'+i).innerHTML=x?S(`Меня' зову'т <b>${x}</b>. О'чень прия'тно!`):'';if(/[а-яё]{2,}/i.test(x))mark(i)};$('ni'+i).oninput=upd;upd()}
+ })}
+
+/* ---------- practice ---------- */
+let selDecks=new Set(store.get('decksel',['l9p0'])),mode=store.get('mode','flash'),dir=store.get('dir','f');
+const MODES=[['flash','Flashcards','Tarjetas','Flip and check'],['quiz','Quiz','Test','Pick the answer'],['match','Match','Unir','Pairs, tap tap'],['build','Build the phrase','Forma la frase','Put words in order']];
+function drawPick(){
+ drawLessonPick();
+ modes.innerHTML=MODES.map(m=>`<div class="mode ${mode==m[0]?'on':''}" data-m="${m[0]}">${m[1]}<small>${m[3]} <span class="zh">${m[2]}</span></small></div>`).join('');
+ dirs.innerHTML=[['f','Russian first'],['b','English first']].map(x=>`<button class="chip ${dir==x[0]?'on':''}" data-r="${x[0]}">${x[1]}</button>`).join('');
+ deckCount.textContent=pool().length+' cards selected'}
+const pool=()=>DECKS.filter(d=>selDecks.has(d.id)).flatMap(d=>d.cards.map(c=>Object.assign({deck:d.id},c)));
+let openL=store.get('openL',0);
+function drawLessonPick(){
+ const Ls=uniq(DECKS.map(d=>d.lesson));
+ const tabs=Ls.map(n=>{const ds=DECKS.filter(d=>d.lesson==n),k=ds.filter(d=>selDecks.has(d.id)).length;return `<button class="lt2 ${openL==n?'open':''} ${k?'has':''}" data-l="${n}"><b>Lesson ${n}</b><small>${k?k+' of '+ds.length+' selected':ds.length+' parts'}</small><i>▾</i></button>`}).join('');
+ let panel='';
+ if(openL){const ds=DECKS.filter(d=>d.lesson==openL),all=ds.every(d=>selDecks.has(d.id));
+  panel=`<div class="lpanel"><label class="lpi full ${all?'on':''}" data-all="${openL}"><i></i><span><b>Full lesson ${openL}</b> <small>${ds.reduce((a,d)=>a+d.cards.length,0)} cards</small></span></label>`+ds.map(d=>`<label class="lpi ${selDecks.has(d.id)?'on':''}" data-d="${d.id}"><i></i><span>${d.title} <small>${d.cards.length} cards</small></span></label>`).join('')+'</div>'}
+ decks.innerHTML=`<div class="ltabs">${tabs}</div>${panel}`}
+decks.onclick=e=>{const a=e.target.closest('[data-all]');if(a){const ds=DECKS.filter(d=>d.lesson==a.dataset.all),all=ds.every(d=>selDecks.has(d.id));ds.forEach(d=>all?selDecks.delete(d.id):selDecks.add(d.id));store.set('decksel',[...selDecks]);drawPick();return}const l=e.target.closest('[data-l]');if(l){openL=openL==l.dataset.l?0:+l.dataset.l;store.set('openL',openL);drawPick();return}if(0)0;
+ const b=e.target.closest('[data-d]');if(!b)return;const id=b.dataset.d;selDecks.has(id)?selDecks.delete(id):selDecks.add(id);store.set('decksel',[...selDecks]);drawPick()};
+modes.onclick=e=>{const b=e.target.closest('[data-m]');if(!b)return;mode=b.dataset.m;store.set('mode',mode);drawPick()};
+dirs.onclick=e=>{const b=e.target.closest('[data-r]');if(!b)return;dir=b.dataset.r;store.set('dir',dir);drawPick()};
+allDecks.onclick=()=>{selDecks=new Set(DECKS.filter(d=>!d.bonus).map(d=>d.id));store.set('decksel',[...selDecks]);drawPick()};
+noDecks.onclick=()=>{selDecks=new Set();store.set('decksel',[]);drawPick()};
+const front=c=>`${c.img&&dir=='f'?`<div class="dr">${c.img}</div>`:''}<div class="ru">${S(c.f)}</div>${c.rm?hintHtml(c):''}`;
+const backTx=c=>`<div class="tr">${c.b}</div><div class="tr zh" style="color:var(--muted);font-size:16px">${c.z||''}</div>${c.rm?hintHtml(c):''}`;
+startBtn.onclick=()=>{const p=pool();if(p.length<4){stage.innerHTML='<p class="sub" style="margin-top:70px">Choose at least one set of cards above first. Elige primero las tarjetas para practicar.</p>';return}({flash:flash,quiz:quiz,match:match,build:build})[mode](p);stage.scrollIntoView({behavior:'smooth',block:'center'})};
+
+function flash(p){
+ let q=shuffle(p),flipped=false,got=0,total=p.length;
+ function draw(){
+  if(!q.length){stage.innerHTML=`<div class="res"><big>${got} / ${total}</big>Round finished! ¡Ronda terminada!</div><p><button class="btn" id="ag">Again Otra vez</button></p>`;$('ag').onclick=()=>flash(p);return}
+  const c=q[0];const fr=dir=='f'?front(c):`<div class="tr" style="font-size:24px">${c.b}</div><div class="tr zh" style="color:var(--muted);font-size:16px">${c.z||''}</div>`;
+  const bk=dir=='f'?backTx(c):(c.img?`<div class="dr">${c.img}</div><div class="ru big">${c.f}</div>`:`<div class="ru ${c.big?'big':''}">${S(c.f)}</div>`);
+  stage.innerHTML=`<div class="qn">${total-q.length+1} / ${total} · tap the card to flip Toca para girar</div><div class="fc ${flipped?'back':''}" id="fcard">${flipped?bk:fr}<div class="hint">${flipped?'':'tap to flip'}</div></div><div class="row" style="justify-content:center;margin-top:8px"><button class="btn ghost sm" id="spk1">${SPK} <span>Hear the word Escuchar</span></button></div><div class="row" style="justify-content:center;margin-top:10px">${flipped?'<button class="btn ghost" id="again">Again Otra vez</button><button class="btn" id="gotit">Got it Lo sé</button>':''}</div>`;
+  $('fcard').onclick=()=>{flipped=!flipped;draw();if(flipped)sayCard(c)};$('spk1').onclick=()=>sayCard(c);if($('spk2'))$('spk2').onclick=()=>sayCard(c,'w');
+  if(flipped){$('again').onclick=()=>{q.push(q.shift());flipped=false;draw()};$('gotit').onclick=()=>{learn(c.id);q.shift();got++;flipped=false;draw()}}}
+ draw()}
+function quiz(p){
+ const n=Math.min(10,p.length);const qs=shuffle(p).slice(0,n).map(c=>{
+  const same=p.filter(x=>x.deck==c.deck&&x.id!=c.id),other=same.length>=3?same:p.filter(x=>x.id!=c.id);
+  if(dir=='f'){const bad=shuffle(uniq(other.map(x=>x.b)).filter(b=>b!=c.b)).slice(0,3);return{id:c.id,p:`${c.img?`<div class="dr" style="width:84px;height:84px;margin:0 auto">${c.img}</div>`:''}<div class="bigq ${c.big?'big':''}">${S(c.f)}</div><div class="q2">What does it mean? ¿Qué significa?</div>`,ok:c.b,bad,say:c.big?(c.w||''):c.f}}
+  const bad=shuffle(uniq(other.map(x=>S(x.f))).filter(f=>f!=S(c.f))).slice(0,3);return{id:c.id,p:`<div class="bigq" style="font-size:26px">${c.b}</div><div class="q2 zh">${c.z||''} — in Russian? ¿Cómo se dice en ruso?</div>`,ok:S(c.f),bad,say:c.big?(c.w||''):c.f}});
+ mcq(stage,qs,null,{learn:1})}
+function match(p){
+ const set=shuffle(p).slice(0,6);let sel=null,got=0;
+ const Ls=shuffle(set),Rs=shuffle(set);
+ stage.innerHTML=`<div class="qn">Tap a Russian card, then its meaning Toca primero el ruso y luego el significado</div><div class="mg" id="mgp">${Ls.map((c,k)=>`<button class="mi" data-s="l" data-k="${c.id}">${S(c.f)}</button><button class="mi" data-s="r" data-k="${Rs[k].id}">${Rs[k].b}<small class="zh">${Rs[k].z||''}</small></button>`).join('')}</div>`;
+ $('mgp').onclick=e=>{const b=e.target.closest('.mi');if(!b||b.classList.contains('done'))return;if(b.dataset.s=='l'){const cc=set.find(x=>x.id==b.dataset.k);if(cc)sayCard(cc)}if(!sel||sel.dataset.s==b.dataset.s){if(sel)sel.classList.remove('sel');sel=b;b.classList.add('sel');return}
+  if(sel.dataset.k==b.dataset.k){sel.classList.remove('sel');sel.classList.add('done');b.classList.add('done');learn(b.dataset.k);sel=null;got++;if(got==set.length)stage.insertAdjacentHTML('beforeend',`<div class="res"><big>Well done!</big><button class="btn" id="ag">Again Otra vez</button></div>`),$('ag').onclick=()=>match(p)}else{const a=sel;a.classList.remove('sel');a.classList.add('bad');b.classList.add('bad');sel=null;setTimeout(()=>{a.classList.remove('bad');b.classList.remove('bad')},600)}}}
+function build(p){
+ const ok=p.filter(c=>!c.img).filter(c=>{const t=S(c.f).replace(/[…?!.,]/g,'').trim().split(/\s+/);return t.length>=2&&t.length<=6});
+ if(!ok.length){stage.innerHTML='<p class="sub" style="margin-top:70px">No phrases in this selection. Add «Greetings and names». Elige una lección con frases.</p>';return}
+ const qs=shuffle(ok).slice(0,8);let i=0,sc=0;
+ function draw(){
+  if(i>=qs.length){stage.innerHTML=`<div class="res"><big>${sc} / ${qs.length}</big>Great! ¡Excelente!</div><p><button class="btn" id="ag">Again Otra vez</button></p>`;$('ag').onclick=()=>build(p);return}
+  const c=qs[i],target=S(c.f).replace(/[…?!.,]/g,'').trim().split(/\s+/),tiles=shuffle(target.map((w,k)=>({w,k})));let ans=[];
+  stage.innerHTML=`<div class="qn">${i+1} / ${qs.length}</div><div class="bigq" style="font-size:26px">${c.b}</div><div class="q2 zh">${c.z||''}</div><div class="ans" id="ans"></div><div class="tiles2" id="tls">${tiles.map(t=>`<button class="tl2" data-k="${t.k}">${t.w}</button>`).join('')}</div><button class="btn ghost sm" id="clr">Clear Borrar</button>`;
+  const upd=()=>{$('ans').innerHTML=ans.map(a=>`<span class="tl2">${a.w}</span>`).join('');$('tls').querySelectorAll('.tl2').forEach(b=>b.classList.toggle('used',ans.some(a=>String(a.id)==b.dataset.id)));if(ans.length==target.length){const good=ans.every((a,k)=>a.w==target[k]);$('ans').classList.add(good?'okk':'bad');if(good){sc++;learn(c.id);say(c.f)}setTimeout(()=>{i++;draw()},good?900:1600);if(!good)$('ans').insertAdjacentHTML('afterend',`<div class="q2">${S(c.f)}</div>`)}};
+  [...$('tls').children].forEach((b,idx)=>b.dataset.id=idx);
+  $('tls').onclick=e=>{const b=e.target.closest('.tl2');if(!b||b.classList.contains('used')||ans.length>=target.length)return;ans.push({w:b.textContent,id:b.dataset.id});upd()};
+  $('clr').onclick=()=>{ans=[];upd()};}
+ draw()}
+
+/* ---------- settings ---------- */
+const THEMES=[['night','Night','#0F1621'],['rose','Navy','#2F5D9B'],['lav','Steel','#4B5563'],['mint','Forest','#2F6B4F'],['sky','Ocean','#1F7FA3'],['sun','Amber','#B86E12']];
+function pushPrefs(){try{const w=lframe.contentWindow;w&&w.postMessage({theme:document.documentElement.dataset.theme,zh:document.documentElement.dataset.zh,rm:document.documentElement.dataset.rm},'*')}catch(e){}}
+const SUN='<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>',MOON='<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>';
+function setTheme(t){if(t!='night')store.set('lightTheme',t);document.documentElement.dataset.theme=t;store.set('theme',t);try{localStorage.setItem('dv_theme',t)}catch(e){}drawSw();pushPrefs();modebtn.innerHTML=t=='night'?SUN:MOON}
+function drawSw(){const cur=document.documentElement.dataset.theme;sw.innerHTML=sw2.innerHTML=THEMES.map(t=>`<button class="swb ${cur==t[0]?'on':''}" data-t="${t[0]}"><i style="background:${t[2]}"></i>${t[1]}</button>`).join('')}
+sw2.onclick=e=>{const b=e.target.closest('[data-t]');if(b){setTheme(b.dataset.t);themepop.classList.remove('on')}};
+themebtn.onclick=e=>{e.stopPropagation();themepop.classList.toggle('on')};document.addEventListener('click',e=>{if(!e.target.closest('#themepop'))themepop.classList.remove('on')});
+modebtn.onclick=()=>{const cur=document.documentElement.dataset.theme;setTheme(cur=='night'?store.get('lightTheme','rose'):'night')};
+modebtn.innerHTML=document.documentElement.dataset.theme=='night'?SUN:MOON;
+sw.onclick=e=>{const b=e.target.closest('[data-t]');if(b)setTheme(b.dataset.t)};
+function setZh(v){document.documentElement.dataset.zh=v;try{localStorage.setItem('dv_zh',v)}catch(e){}zhTg.classList.toggle('on',v=='on');pushPrefs()}
+slTg.classList.toggle('on',!!store.get('slow',false));slTg.onclick=()=>{const v=!store.get('slow',false);store.set('slow',v);slTg.classList.toggle('on',v)};
+reset.onclick=()=>{if(!confirm('Clear all progress on this device?'))return;Object.keys(localStorage).filter(k=>k.startsWith('dv_')&&!/theme|_zh|_rm|slow|track|vol|lightTheme/.test(k)).forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});drawStart();drawHw()};
+
+/* ---------- music (YouTube lo-fi) ---------- */
+const TRACKS=[['5yx6BWlEVcY','Chillhop · jazzy & lofi beats'],['4xDzrJKXOOY','Lofi Girl · synthwave radio']];
+mTrack.innerHTML=TRACKS.map((t,i)=>`<option value="${i}">${t[1]}</option>`).join('');mTrack.value=Math.min(+store.get('track',0)||0,TRACKS.length-1);mVol.value=store.get('vol',40);
+let yt=null,ytReady=false,playing=false,wantPlay=false,errTries=0;
+const ICP='<path d="M8 5v14l11-7z" fill="#fff"/>',ICS='<path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="#fff"/>';
+const mMsg=m=>{$('mMsg').textContent=m||''};
+function icon(){mIcon.innerHTML=playing?ICS:ICP;music.classList.toggle('play',playing);mPlay.textContent=playing?'Pause ❚❚':(wantPlay&&!ytReady?'Loading…':'Play ▸');mLbl.textContent=playing?'Playing':'Lo-fi'}
+function loadYT(cb){if(window.YT&&YT.Player)return cb();const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);window.onYouTubeIframeAPIReady=cb}
+function makePlayer(){loadYT(()=>{yt=new YT.Player('ytplayer',{width:'200',height:'200',videoId:TRACKS[+mTrack.value][0],playerVars:{autoplay:1,controls:0,playsinline:1},events:{onReady:()=>{ytReady=true;yt.setVolume(+mVol.value);if(wantPlay)yt.playVideo();icon()},onStateChange:e=>{playing=e.data==1||e.data==3;if(e.data==1){errTries=0;mMsg('Now playing: '+TRACKS[+mTrack.value][1])}icon()},onError:()=>{errTries++;if(errTries<TRACKS.length){mTrack.value=(+mTrack.value+1)%TRACKS.length;store.set('track',+mTrack.value);mMsg('This stream is blocked, trying another one…');yt.loadVideoById(TRACKS[+mTrack.value][0])}else{playing=false;wantPlay=false;mMsg("Sorry, music can't play on this device.");icon()}}}})})}
+function toggleMusic(){if(!yt){wantPlay=true;mMsg('Loading music…');makePlayer();icon();return}if(!ytReady)return;if(playing){yt.pauseVideo();playing=false;wantPlay=false}else{wantPlay=true;yt.playVideo()}icon()}
+music.onclick=toggleMusic;mPlay.onclick=toggleMusic;
+mTrack.onchange=()=>{store.set('track',+mTrack.value);errTries=0;if(yt&&ytReady){wantPlay=true;yt.loadVideoById(TRACKS[+mTrack.value][0])}};
+mVol.oninput=()=>{store.set('vol',+mVol.value);if(yt&&ytReady)yt.setVolume(+mVol.value)};
+icon();
+
+/* init */
+drawSw();drawPick();drawStart();show('menu');
+</script>
+</body></html>

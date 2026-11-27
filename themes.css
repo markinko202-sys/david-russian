@@ -1,0 +1,30 @@
+/* shared themes: rose (default), lav, mint, sky, sun */
+:root{--bg:#EDF0F5;--ink:#16202E;--muted:#667488;--rose:#2F5D9B;--rose2:#1F4378;--blush:#DCE5F2;--lav:#E3E8F1;--lav2:#4B6A95;--mint:#DDEEE5;--mint2:#2F7A58;--peach:#F6E7CC;--peach2:#A8691A;--line:#CBD3DF;--ok:#DDEEE5;--bad:#F7DEDC;--card:#fff;--g1:#DCE5F2;--g2:#E3E8F1;--g3:#E4EFE9}
+:root[data-theme="lav"]{--bg:#F1F2F4;--ink:#1F2430;--muted:#6A7080;--rose:#4B5563;--rose2:#2F3744;--blush:#E3E5EA;--lav:#E7E9EE;--lav2:#5E6B85;--mint:#DDEEE5;--mint2:#2F7A58;--peach:#F2E6D3;--peach2:#9A6B2A;--line:#D3D6DC;--ok:#DDEEE5;--bad:#F7DEDC;--card:#fff;--g1:#E3E5EA;--g2:#EBECEF;--g3:#E6ECE8}
+:root[data-theme="mint"]{--bg:#F0F4F0;--ink:#1A2B22;--muted:#66786D;--rose:#2F6B4F;--rose2:#1F5038;--blush:#DCEADF;--lav:#E3EAE6;--lav2:#4F7366;--mint:#E3EFD9;--mint2:#4F7A2E;--peach:#F3E8CE;--peach2:#9A6B1F;--line:#CBD8CE;--ok:#E3EFD9;--bad:#F7DEDC;--card:#fff;--g1:#DCEADF;--g2:#E3EAE6;--g3:#EAF0DC}
+:root[data-theme="sky"]{--bg:#EEF4F7;--ink:#14262F;--muted:#627A87;--rose:#1F7FA3;--rose2:#14607D;--blush:#D8EAF2;--lav:#E1E9F4;--lav2:#4D6E9A;--mint:#DAEEE8;--mint2:#2F7D6E;--peach:#F4E6CC;--peach2:#A06A1E;--line:#C9D9E2;--ok:#DAEEE8;--bad:#F7DEDC;--card:#fff;--g1:#D8EAF2;--g2:#E1E9F4;--g3:#DDF0EA}
+:root[data-theme="sun"]{--bg:#F6F2EB;--ink:#2A2118;--muted:#7B6E5E;--rose:#B86E12;--rose2:#8F520A;--blush:#F1E2C8;--lav:#EAE4D8;--lav2:#7A6A4A;--mint:#E4EBD3;--mint2:#5F7A2E;--peach:#F3E0BE;--peach2:#8F520A;--line:#DDD2BE;--ok:#E4EBD3;--bad:#F7DEDC;--card:#fff;--g1:#F1E2C8;--g2:#EAE4D8;--g3:#E4EBD3}
+:root{--bdlav:color-mix(in srgb,var(--lav2) 18%,var(--lav));--shlav:color-mix(in srgb,var(--lav2) 10%,var(--lav));--bdmint:color-mix(in srgb,var(--mint2) 18%,var(--mint));--shmint:color-mix(in srgb,var(--mint2) 10%,var(--mint));--bdpeach:color-mix(in srgb,var(--peach2) 20%,var(--peach));--shpeach:color-mix(in srgb,var(--peach2) 12%,var(--peach));--bdme:color-mix(in srgb,var(--rose) 35%,#fff);--lg1:color-mix(in srgb,var(--rose) 8%,#fff);--lg2:color-mix(in srgb,var(--lav2) 7%,#fff);--lg4:color-mix(in srgb,var(--peach2) 8%,#fff);--navbg:color-mix(in srgb,var(--bg) 92%,transparent)}
+html[data-zh="off"] .zh{display:none!important}
+:root[data-theme="night"]{color-scheme:dark;--bg:#0F1621;--ink:#E7ECF4;--muted:#93A1B8;--rose:#E3A33B;--rose2:#F0BC62;--blush:#1F2B3E;--lav:#1B2536;--lav2:#8FB0E0;--mint:#17302A;--mint2:#7FD0B0;--peach:#2E2616;--peach2:#E9B25A;--line:#2A3850;--ok:#1B3A2E;--bad:#40242A;--card:#161F2D;--g1:#15213A;--g2:#121C2C;--g3:#112620}
+:root[data-theme="night"]{--lg1:color-mix(in srgb,var(--rose) 16%,var(--card));--lg2:color-mix(in srgb,var(--lav2) 16%,var(--card));--lg4:color-mix(in srgb,var(--peach2) 16%,var(--card));--bdme:color-mix(in srgb,var(--rose) 50%,var(--card))}
+:root[data-theme="night"] .card.latest{background:linear-gradient(135deg,color-mix(in srgb,var(--rose) 24%,var(--card)),var(--card))}
+:root[data-theme="night"] .btn{color:#0F1621}
+:root[data-theme="night"] .pill.on,:root[data-theme="night"] .mode.on,:root[data-theme="night"] .mbtn.main{color:#0F1621}
+:root[data-theme="night"] .pill.on small,:root[data-theme="night"] .mode.on small{color:#0F1621}
+:root[data-theme="night"] iframe.lf{background:var(--bg)}
+
+:root[data-theme="night"] .btn.ghost,:root[data-theme="night"] .btn.ghost *{color:var(--rose2)}
+:root[data-theme="night"] .btn.ghost{background:var(--card);border-color:var(--rose)}
+:root[data-theme="night"] .btn.ghost:hover{background:var(--blush)}
+:root[data-theme="night"] .fc{background:color-mix(in srgb,var(--lav2) 18%,var(--card));border-color:color-mix(in srgb,var(--lav2) 45%,var(--card));box-shadow:0 8px 0 color-mix(in srgb,var(--lav2) 14%,var(--card))}
+:root[data-theme="night"] .fc.back{background:color-mix(in srgb,var(--rose) 22%,var(--card));border-color:color-mix(in srgb,var(--rose) 50%,var(--card));box-shadow:0 8px 0 color-mix(in srgb,var(--rose) 16%,var(--card))}
+:root[data-theme="night"] .stage{background:color-mix(in srgb,var(--card) 70%,var(--bg))}
+:root[data-theme="night"] .opt,:root[data-theme="night"] .mi,:root[data-theme="night"] .tl2,:root[data-theme="night"] .chip,:root[data-theme="night"] .mode{color:var(--ink)}
+:root[data-theme="night"] .opt.ok,:root[data-theme="night"] .mi.done{color:#CFF5E4}
+:root[data-theme="night"] .opt.no,:root[data-theme="night"] .mi.bad{color:#FFD3DC}
+:root[data-theme="night"] .chip.on{background:color-mix(in srgb,var(--lav2) 28%,var(--card));border-color:var(--lav2)}
+:root[data-theme="night"] .mode.on small{color:#0F1621}
+:root[data-theme="night"] .badge.ok{color:var(--mint2)}
+:root[data-theme="night"] .spk{background:var(--blush);color:var(--rose2)}
+:root[data-theme="night"] .spk:hover{background:var(--rose);color:#0F1621}
