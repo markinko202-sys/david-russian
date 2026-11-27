@@ -224,6 +224,23 @@ header#top,nav{border-bottom:1px solid var(--line)!important}nav#nav{border-righ
 .lpi{display:flex;gap:10px;align-items:center;padding:9px 12px;border-radius:10px;cursor:pointer;font-weight:600}.lpi:hover{background:var(--blush)}
 .lpi i{flex:0 0 20px;height:20px;border:2px solid var(--line);border-radius:6px;background:var(--card)}.lpi.on i{background:var(--rose);border-color:var(--rose);box-shadow:inset 0 0 0 3px var(--card)}
 .lpi small{color:var(--muted);font-weight:600;margin-left:4px}.lpi.full{grid-column:1/-1;background:var(--blush)}
+
+.vcard{padding:0;margin:12px 0;overflow:hidden}
+.vhead{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;cursor:pointer}
+.vinf{font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;line-height:1.1}
+.ven{color:var(--muted);font-weight:600}
+.vmeta{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.vch{width:11px;height:11px;border:solid var(--ink,#333);border-width:0 3px 3px 0;transform:rotate(45deg);margin:0 6px 4px 8px;transition:transform .2s}
+.vcard.open .vch{transform:rotate(-135deg);margin-bottom:-4px}
+.vbody{display:none;padding:0 18px 16px}.vcard.open .vbody{display:block}
+.vt{width:100%;border-collapse:collapse;margin:4px 0 12px}
+.vt td{padding:9px 6px;border-top:1px solid var(--line);vertical-align:middle}
+.vt tr{cursor:pointer}.vt tr:hover td{background:var(--blush,rgba(0,0,0,.03))}
+.vp{width:34%;font-weight:700}.vp small{display:block;color:var(--muted);font-weight:500;font-size:12px}
+.vf{font-size:24px;font-weight:800;font-family:'Oswald',sans-serif;letter-spacing:.2px}
+.vs{width:48px;text-align:right}
+.vex{padding:6px 0;border-top:1px dashed var(--line)}.vex>div{font-weight:700;font-size:18px}.vex small{color:var(--muted);font-weight:500}
+.vnote{margin-top:10px;padding:10px 14px;border-left:5px solid var(--rose);background:var(--blush,rgba(0,0,0,.04));border-radius:8px;font-weight:500}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute"><filter id="sk"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter></svg>
 
@@ -261,6 +278,7 @@ header#top,nav{border-bottom:1px solid var(--line)!important}nav#nav{border-righ
  <div class="tiles">
   <div class="tile" data-go="lessons"><div class="dr" id="t1"></div><div><b>Continue lesson</b><small id="t1s"></small></div></div>
   <div class="tile" data-go="homework"><div class="dr" id="t2"></div><div><b>Homework</b><small id="t2s"></small></div></div>
+  <div class="tile" data-go="verbs"><div class="dr" id="t6"></div><div><b>Verbs</b><small id="t6s"></small></div></div>
   <div class="tile" data-go="dict"><div class="dr" id="t5"></div><div><b>Dictionary</b><small id="t5s"></small></div></div>
   <div class="tile" data-go="practice"><div class="dr" id="t3"></div><div><b>Practice</b><small id="t3s"></small></div></div>
  </div>
@@ -304,6 +322,14 @@ header#top,nav{border-bottom:1px solid var(--line)!important}nav#nav{border-righ
  </div>
  <div class="stage" id="stage"><p class="sub" style="margin-top:70px">Choose cards and a game above, then press Start.</p></div>
  <p style="text-align:center;margin-top:16px"><button class="btn" id="startBtn">Start ▸</button></p>
+</section>
+
+<!-- VERBS -->
+<section class="view" id="v-verbs">
+ <h2>Verbs</h2><p class="sub">Every verb we have met, with all six forms. Press the speaker to hear a form. Press a verb to open or close it.</p>
+ <div class="card"><div class="row"><input class="tin" id="vq" placeholder="Search a verb…" style="flex:1;width:auto;min-width:200px"><button class="btn ghost sm" id="vall">Open all</button><button class="btn ghost sm" id="vnone">Close all</button></div>
+  <div class="chips" id="vk" style="margin:12px 0 0"></div><div class="sub" id="vcount" style="margin:6px 0 0"></div></div>
+ <div id="vlist"></div>
 </section>
 
 <!-- DICTIONARY -->
@@ -350,6 +376,7 @@ header#top,nav{border-bottom:1px solid var(--line)!important}nav#nav{border-righ
 <div id="ytp"><div id="ytplayer"></div></div>
 
 <script src="data.js"></script>
+<script src="verbs.js"></script>
 <script>
 const S=t=>String(t).replace(/(?<=[а-яёА-ЯЁ])'/g,'́');
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
@@ -471,6 +498,26 @@ dq.oninput=()=>drawDict(true);dl.onchange=()=>drawDict(true);
 dk.onclick=e=>{const b=e.target.closest('[data-k]');if(!b)return;if(b.dataset.k=='pic')dpic=!dpic;else dkind=b.dataset.k;drawDict(true)};
 dmore.onclick=()=>{dshown+=60;drawDict()};
 
+/* ---------- verbs ---------- */
+const VPR=['я','ты','он / она','мы','вы','они'],VPS=['Я','Ты','Он','Мы','Вы','Они'],VPE=['I','you','he / she','we','you (pl.)','they'];
+const VGR=[['all','All verbs'],['l5','Lessons 4–5'],['l6','Lesson 6'],['l9','Lessons 7–9'],['l10','Lesson 10'],['irr','Irregular']];
+let vgrp='all',vopen=new Set();
+const vIn=(v,k)=>k=='all'||(k=='l5'&&v.l<=5)||(k=='l6'&&v.l==6)||(k=='l9'&&v.l>=7&&v.l<=9)||(k=='l10'&&v.l==10)||(k=='irr'&&/irregular|-иться|д → ж|л appears|авать|ёшь/.test(v.g));
+function drawVerbs(){
+ vk.innerHTML=VGR.map(k=>`<button class="chip ${vgrp==k[0]?'on':''}" data-k="${k[0]}">${k[1]}</button>`).join('');
+ const q=nrm(vq.value);
+ const list=VERBS.filter(v=>vIn(v,vgrp)&&(!q||nrm(v.inf).includes(q)||nrm(v.en).includes(q)||v.f.some(f=>nrm(f).includes(q))));
+ vcount.textContent=list.length+' verbs';
+ vlist.innerHTML=list.map(v=>{const o=vopen.has(v.inf);
+  const rows=v.f.map((f,i)=>`<tr data-spk="${esc(VPS[i]+' '+f)}"><td class="vp">${VPR[i]}<small>${VPE[i]}</small></td><td class="vf">${S(f)}</td><td class="vs"><button class="spk" data-spk="${esc(VPS[i]+' '+f)}" title="Listen">${SPK}</button></td></tr>`).join('');
+  const ex=v.ex.map(e=>`<div class="vex"><div>${S(e[0])} ${spkBtn(e[0])}</div><small>${e[1]}</small></div>`).join('');
+  return `<div class="card vcard ${o?'open':''}" data-v="${esc(v.inf)}"><div class="vhead"><div><div class="vinf">${S(v.inf)} ${spkBtn(v.inf)}</div><div class="ven">${v.en}</div></div><div class="vmeta"><span class="badge">${v.g}</span><span class="badge">lesson ${v.l}</span><i class="vch"></i></div></div><div class="vbody"><table class="vt">${rows}</table>${ex}${v.n?`<div class="vnote">${S(v.n)}</div>`:''}</div></div>`}).join('')+
+ (list.length&&(!q||nrm('нравиться').includes(q)||'like'.includes(q))&&vgrp!='l9'&&vgrp!='l10'&&vgrp!='irr'?`<div class="card vcard ${vopen.has('нравиться')?'open':''}" data-v="нравиться"><div class="vhead"><div><div class="vinf">${S(NRAV.inf)}</div><div class="ven">${NRAV.en}</div></div><div class="vmeta"><span class="badge">special</span><span class="badge">lesson ${NRAV.l}</span><i class="vch"></i></div></div><div class="vbody">${NRAV.rows.map(r=>`<div class="vex"><div>${S(r[0])} ${spkBtn(r[0])}</div><small>${r[1]}</small></div>`).join('')}<div class="vnote">${S(NRAV.n)}</div></div></div>`:'');
+ }
+vlist.onclick=e=>{if(e.target.closest('[data-spk]'))return;const c=e.target.closest('.vhead');if(!c)return;const card=c.parentElement,k=card.dataset.v;if(vopen.has(k))vopen.delete(k);else vopen.add(k);card.classList.toggle('open')};
+vk.onclick=e=>{const b=e.target.closest('[data-k]');if(!b)return;vgrp=b.dataset.k;drawVerbs()};
+vq.oninput=drawVerbs;vall.onclick=()=>{VERBS.forEach(v=>vopen.add(v.inf));vopen.add('нравиться');drawVerbs()};vnone.onclick=()=>{vopen.clear();drawVerbs()};
+
 /* ---------- audio (voice: Xenia) ---------- */
 const AB='audio/';
 function hk(s){s=s.replace(/[\u0301'…?!.,]/g,'').replace(/\s+/g,' ').trim().toLowerCase();let h=0x811c9dc5;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,0x01000193)}return ('00000000'+(h>>>0).toString(16)).slice(-8)}
@@ -484,12 +531,12 @@ function sayCard(c){if(c.big){if(c.w)say(c.w)}else say(c.f)}
 document.addEventListener('click',e=>{const s=e.target.closest('[data-spk]');if(s){e.stopPropagation();say(s.dataset.spk);return}const n=e.target.closest('[data-snd]');if(n){e.stopPropagation();snd(n.dataset.snd)}},true);
 
 /* ---------- nav / views ---------- */
-const VIEWS=[['menu','Меню\'','Menu',''],['start','Нача\'ть','Start',''],['lessons','Уро\'ки','Lessons',''],['homework','Дома\'шка','Homework',''],['dict','Слова\'рь','Dictionary',''],['practice','Пра\'ктика','Practice',''],['settings','Настро\'йки','Settings',''],['about','Об а\'вторе','About','']];
+const VIEWS=[['menu','Меню\'','Menu',''],['start','Нача\'ть','Start',''],['lessons','Уро\'ки','Lessons',''],['homework','Дома\'шка','Homework',''],['verbs','Глаго\'лы','Verbs',''],['dict','Слова\'рь','Dictionary',''],['practice','Пра\'ктика','Practice',''],['settings','Настро\'йки','Settings',''],['about','Об а\'вторе','About','']];
 nav.innerHTML='<div class="navhead"><div class="hand">Дэвид</div><small>Russian with Artemiy</small></div>'+VIEWS.filter(v=>v[0]!='menu').map(v=>`<button class="pill" data-v="${v[0]}">${S(v[1])}<small>${v[2]} <span class="zh">${v[3]}</span></small></button>`).join('')+'<button class="pill" data-v="menu">Меню<small>Main menu</small></button>';
 const setNav=o=>{document.body.classList.toggle('navopen',o)};burger.onclick=()=>setNav(!document.body.classList.contains('navopen'));scrim.onclick=()=>setNav(false);
 function drawHeader(){const hw=store.get('hw',{}),dn=HW.filter(h=>h.tasks.every((t,i)=>hw[h.id+'_'+i])).length,lr=store.get('learned',[]).length,tk=Object.values(hw).filter(Boolean).length,xp=lr*2+tk*10,lv=Math.floor(xp/60)+1,pr=Math.round((xp%60)/60*100);
  hstats.innerHTML=`<span class="hs"><b>Level ${lv}</b><i class="lvbar"><u style="width:${pr}%"></u></i></span><span class="hs"><b>${LESSONS.length}</b> lessons</span><span class="hs"><b>${dn}/${HW.length}</b> homework</span>`}
-function show(v){setNav(false);drawHeader();document.body.classList.toggle('menu',v=='menu');document.querySelectorAll('.view').forEach(s=>s.classList.toggle('on',s.id=='v-'+v));nav.querySelectorAll('.pill').forEach(p=>p.classList.toggle('on',p.dataset.v==v));store.set('view',v);window.scrollTo({top:0});if(v=='start')drawStart();if(v=='homework')drawHw();if(v=='lessons')drawLessons();if(v=='dict')drawDict(true)}
+function show(v){setNav(false);drawHeader();document.body.classList.toggle('menu',v=='menu');document.querySelectorAll('.view').forEach(s=>s.classList.toggle('on',s.id=='v-'+v));nav.querySelectorAll('.pill').forEach(p=>p.classList.toggle('on',p.dataset.v==v));store.set('view',v);window.scrollTo({top:0});if(v=='start')drawStart();if(v=='homework')drawHw();if(v=='lessons')drawLessons();if(v=='dict')drawDict(true);if(v=='verbs')drawVerbs()}
 nav.onclick=e=>{const b=e.target.closest('.pill');if(b)show(b.dataset.v)};
 document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)show(b.dataset.go)});
 
@@ -497,7 +544,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b
 function drawStart(){
  const last=store.get('last',null);const l=last&&LESSONS.find(x=>x.n==last);t1s.textContent=l?`Lesson ${l.n} · ${l.title}`:'Lesson 1 · Greetings and names';
  const hw=store.get('hw',{});const dn=HW.filter(h=>h.tasks.every((t,i)=>hw[h.id+'_'+i])).length;t2s.textContent=`${dn} of ${HW.length} homeworks done`;
- const lr=store.get('learned',[]);t3s.textContent=`${lr.length} cards learned so far`;t5s.textContent=`${DICT.length} words and phrases`;
+ const lr=store.get('learned',[]);t3s.textContent=`${lr.length} cards learned so far`;t5s.textContent=`${DICT.length} words and phrases`;t6s.textContent=`${VERBS.length+1} verbs with all forms`;
  const tw=todayWord(),w=tw.w;wod.innerHTML=S(w.ru)+' '+spkBtn(w.ru);wods.innerHTML=`${w.en} <span class="zh">· ${w.zh||''}</span><div style="margin-top:6px;font-size:12px;font-weight:800">New word every day · word ${tw.n} of ${WODS.length}</div>`;wodp.innerHTML=w.img||'';wodp.style.display=w.img?'':'none'}
 
 /* ---------- lessons ---------- */
@@ -549,6 +596,64 @@ const TS=[['Э́то пи́цца. Она́ ___.','вку́сная',['вку́�
 const tsGen=n=>()=>shuffle(TS).slice(0,n).map(x=>({p:`<div class="bigq" style="font-size:28px">${S(x[0])}</div><div class="q2">tasty: boy, girl or thing?</div>`,ok:S(x[1]),bad:x[2].map(S)}));
 const L1=Lr(1,1),L2=Lr(2,2),L34=Lr(3,4),L56=Lr(5,6),L78=Lr(7,8),L9=Lr(9,9),ALLW=Wd(DICT),ALLP=Ph(DICT);
 const chk=(n,h)=>({t:'check',n,title:'Say it out loud',zh:'',help:'Tick a box after you say each one: '+h});
+const HAGE=[["He is 15.", "Ему́ пятна́дцать лет.", ["Ей пятна́дцать лет.", "Мне пятна́дцать лет."]], ["She is 19.", "Ей девятна́дцать лет.", ["Ему́ девятна́дцать лет.", "Тебе́ девятна́дцать лет."]], ["I am 21.", "Мне два́дцать оди́н год.", ["Мне два́дцать оди́н лет.", "Мне два́дцать оди́н года."]], ["He is 22.", "Ему́ два́дцать два го́да.", ["Ему́ два́дцать два лет.", "Ей два́дцать два го́да."]], ["She is 25.", "Ей два́дцать пять лет.", ["Ей два́дцать пять года.", "Ему́ два́дцать пять лет."]], ["We are 17.", "Нам семна́дцать лет.", ["Им семна́дцать лет.", "Вам семна́дцать лет."]], ["You (ты) are 18.", "Тебе́ восемна́дцать лет.", ["Мне восемна́дцать лет.", "Ему́ восемна́дцать лет."]], ["He is 2.", "Ему́ два го́да.", ["Ему́ два лет.", "Ему́ два год."]], ["She is 12.", "Ей двена́дцать лет.", ["Ей двена́дцать го́да.", "Ей двена́дцать год."]], ["They are 30.", "Им три́дцать лет.", ["Нам три́дцать лет.", "Ей три́дцать лет."]], ["He is 31.", "Ему́ три́дцать оди́н год.", ["Ему́ три́дцать оди́н лет.", "Ему́ три́дцать оди́н года."]], ["She is 4.", "Ей четы́ре го́да.", ["Ей четы́ре лет.", "Ей четы́ре год."]]];
+const HYEAR=[["Ему́ 22 ___", "го́да", ["год", "лет"]], ["Ей 5 ___", "лет", ["год", "го́да"]], ["Мне 21 ___", "год", ["го́да", "лет"]], ["Ей 34 ___", "го́да", ["год", "лет"]], ["Ему́ 12 ___", "лет", ["год", "го́да"]], ["Мне 40 ___", "лет", ["год", "го́да"]], ["Ему́ 3 ___", "го́да", ["год", "лет"]], ["Ей 14 ___", "лет", ["год", "го́да"]], ["Ему́ 1 ___", "год", ["го́да", "лет"]], ["Ей 18 ___", "лет", ["год", "го́да"]], ["Мне 24 ___", "го́да", ["год", "лет"]], ["Ему́ 31 ___", "год", ["го́да", "лет"]]];
+const HWHERE=[["Я учу́сь ___. (шко́ла)", "в шко́ле", ["в шко́лу", "в шко́ла"]], ["Мои́ роди́тели рабо́тают ___. (больни́ца)", "в больни́це", ["в больни́цу", "в больни́ца"]], ["Мой дя́дя рабо́тает ___. (о́фис)", "в о́фисе", ["в о́фису", "в о́фиса"]], ["Мы живём ___. (Ирла́ндия)", "в Ирла́ндии", ["в Ирла́ндие", "в Ирла́ндию"]], ["Моя́ тётя рабо́тает ___. (компа́ния)", "в компа́нии", ["в компа́нию", "в компа́ние"]], ["Мой па́па ___. (рабо́та)", "на рабо́те", ["на рабо́ту", "на рабо́та"]], ["Ма́ма гото́вит ___. (ку́хня)", "на ку́хне", ["на ку́хню", "на ку́хня"]], ["Мой дя́дя живёт ___. (Дубли́н)", "в Дубли́не", ["в Дубли́ну", "в Дубли́н"]], ["Ко́шка ___. (ко́мната)", "в ко́мнате", ["в ко́мнату", "в ко́мната"]], ["Моя́ ма́ма ___. (больни́ца)", "в больни́це", ["в больни́цу", "в больни́ца"]], ["Мы живём ___. (кварти́ра)", "в кварти́ре", ["в кварти́ру", "в кварти́ра"]], ["Я рабо́таю ___. (о́фис)", "в о́фисе", ["в о́фис", "в о́фису"]]];
+const HACC=[["Моего́ ___ зову́т Том. (брат)", "бра́та", ["брат", "бра́ту"]], ["Моего́ ___ зову́т Макс. (друг)", "дру́га", ["друг", "дру́гу"]], ["Моего́ ___ зову́т Ви́ктор. (папа)", "па́пу", ["па́па", "па́пы"]], ["Моего́ ___ зову́т Ма́йкл. (дядя)", "дя́дю", ["дя́дя", "дя́де"]], ["Моего́ ___ зову́т Ива́н. (дедушка)", "де́душку", ["де́душка", "де́душке"]], ["Моего́ ___ зову́т Ба́рсик. (кот)", "кота́", ["кот", "коту́"]], ["Мою́ ___ зову́т Е́ва. (сестра)", "сестру́", ["сестра́", "сестре́"]], ["Мою́ ___ зову́т А́нна. (мама)", "ма́му", ["ма́ма", "ма́ме"]], ["Мою́ ___ зову́т Му́рка. (кошка)", "ко́шку", ["ко́шка", "ко́шке"]], ["Мою́ ___ зову́т Ка́тя. (тётя)", "тётю", ["тётя", "тёте"]], ["Мою́ ___ зову́т Мари́я. (бабушка)", "ба́бушку", ["ба́бушка", "ба́бушке"]], ["Я люблю́ мою́ ___. (мама)", "ма́му", ["ма́ма", "ма́ме"]]];
+const HOWN=[["___ па́пу зову́т Ви́ктор.", "Моего́", ["Мою́", "Мой"]], ["___ ма́му зову́т А́нна.", "Мою́", ["Моего́", "Моя́"]], ["___ дру́га зову́т Макс.", "Моего́", ["Мою́", "Мой"]], ["___ сестру́ зову́т Е́ва.", "Мою́", ["Моего́", "Моя́"]], ["___ дя́дю зову́т Ма́йкл.", "Моего́", ["Мою́", "Мой"]], ["___ ко́шку зову́т Му́рка.", "Мою́", ["Моего́", "Моя́"]], ["___ бра́та зову́т Том.", "Моего́", ["Мою́", "Мой"]], ["___ тётю зову́т Ка́тя.", "Мою́", ["Моего́", "Моя́"]], ["Я люблю́ ___ бра́та.", "моего́", ["мой", "мою́"]], ["Я люблю́ ___ сестру́.", "мою́", ["моего́", "моя́"]], ["Я люблю́ ___ дом. (a thing, not a person)", "мой", ["моего́", "мою́"]], ["Я люблю́ ___ па́пу.", "моего́", ["мою́", "мой"]]];
+const HALLV=[["Бана́ны, я́блоки, сыр: ___ вку́сные.", "Все", ["Всё", "Вся"]], ["___ о́чень вку́сное. (everything)", "Всё", ["Все", "Вся"]], ["___ до́ма: ма́ма, па́па и Том. (everyone)", "Все", ["Всё", "Вся"]], ["Мне нра́вится ___ в Ирла́ндии. (everything)", "всё", ["все", "вся"]], ["___ мои́ друзья́ у́чатся в шко́ле. (all)", "Все", ["Всё", "Вся"]], ["Я зна́ю ___ . (everything)", "всё", ["все", "вся"]]];
+const HIDTI=[["Я ___ в шко́лу. (on foot)", "иду́", ["е́ду", "идёшь"]], ["Я ___ домо́й на авто́бусе. (by bus)", "е́ду", ["иду́", "е́дешь"]], ["Ты ___ на рабо́ту? (on foot)", "идёшь", ["е́дешь", "иду́"]], ["Мой дя́дя ___ на рабо́ту на маши́не. (by car)", "е́дет", ["идёт", "е́ду"]], ["Мы ___ в парк. (on foot)", "идём", ["е́дем", "идёте"]], ["Они́ ___ в о́фис на авто́бусе. (by bus)", "е́дут", ["иду́т", "е́дете"]], ["Ма́ма ___ на рабо́ту. (on foot)", "идёт", ["е́дет", "идёшь"]], ["Вы ___ домо́й? (on foot)", "идёте", ["е́дете", "идём"]]];
+const HWHTO=[["Куда́? Я иду́ ___ .", "в шко́лу", ["в шко́ле", "в шко́ла"]], ["Где? Я учу́сь ___ .", "в шко́ле", ["в шко́лу", "в шко́ла"]], ["Куда́? Ма́ма идёт ___ .", "на рабо́ту", ["на рабо́те", "на рабо́та"]], ["Где? Ма́ма рабо́тает ___ .", "на рабо́те", ["на рабо́ту", "на рабо́та"]], ["Куда́? Па́па е́дет ___ .", "в о́фис", ["в о́фисе", "в о́фису"]], ["Где? Па́па рабо́тает ___ .", "в о́фисе", ["в о́фис", "в о́фису"]], ["Куда́? Я е́ду ___ .", "домо́й", ["до́ма", "дом"]], ["Где? Я ___ .", "до́ма", ["домо́й", "дом"]]];
+const HTIME=[["Я встаю́ в 7 ___.", "часо́в", ["часа́", "час"]], ["Я е́ду домо́й в 4 ___.", "часа́", ["часо́в", "час"]], ["Я обе́даю в 1 ___.", "час", ["часа́", "часо́в"]], ["Я ложу́сь спать в 11 ___.", "часо́в", ["часа́", "час"]], ["Я встаю́ в 6 ___.", "часо́в", ["часа́", "час"]], ["Я иду́ в шко́лу в 2 ___.", "часа́", ["часо́в", "час"]], ["Мы у́жинаем в 8 ___.", "часо́в", ["часа́", "час"]], ["Я ложу́сь спать в 12 ___.", "часо́в", ["часа́", "час"]], ["Я встаю́ в 3 ___.", "часа́", ["часо́в", "час"]]];
+const HEVERY=[["every week", "ка́ждую неде́лю", ["ка́ждый неде́лю", "ка́ждая неде́лю"]], ["every morning", "ка́ждое у́тро", ["ка́ждый у́тро", "ка́ждую у́тро"]], ["every evening", "ка́ждый ве́чер", ["ка́ждая ве́чер", "ка́ждое ве́чер"]], ["every night", "ка́ждую но́чь", ["ка́ждый но́чь", "ка́ждое но́чь"]], ["every day", "ка́ждый день", ["ка́ждую день", "ка́ждое день"]]];
+
+const L10=Lr(10,10),L11=Lr(11,11);
+const fixGen=(arr,n,hint,bq,sayok)=>()=>shuffle(arr).slice(0,n).map(x=>({p:`<div class="bigq" style="font-size:${bq||28}px">${S(x[0])}</div><div class="q2">${hint}</div>`,ok:S(x[1]),bad:x[2].map(S),say:sayok?x[1]:''}));
+const VPSX=['Я','Ты','Он','Мы','Вы','Они'];
+const vpool=infs=>{const o=[];VERBS.filter(v=>!infs||infs.includes(v.inf)).forEach(v=>v.f.forEach((f,i)=>o.push([v,i])));return o};
+const conjGen=(n,infs)=>()=>shuffle(vpool(infs)).slice(0,n).map(([v,i])=>({p:`<div class="bigq" style="font-size:30px">${VPSX[i]} ___ .</div><div class="q2">${S(v.inf)} · ${v.en}</div>`,ok:S(v.f[i]),bad:shuffle(v.f.filter((f,j)=>j!=i&&f!=v.f[i])).slice(0,2).map(S),say:VPSX[i]+' '+v.f[i]}));
+const formListen=(n,infs)=>()=>shuffle(vpool(infs)).slice(0,n).map(([v,i])=>({p:LBTN(VPSX[i]+' '+v.f[i])+`<div class="q2">Which form did you hear? (${S(v.inf)})</div>`,ok:S(v.f[i]),bad:shuffle(v.f.filter((f,j)=>j!=i&&f!=v.f[i])).slice(0,2).map(S)}));
+const verbMean=n=>()=>shuffle(VERBS).slice(0,n).map(v=>({p:`<div class="bigq" style="font-size:34px">${S(v.inf)}</div><div class="q2">What does it mean?</div>`,ok:v.en,bad:shuffle(uniq(VERBS.map(y=>y.en)).filter(e=>e!=v.en)).slice(0,2),say:v.inf}));
+const verbPairs=infs=>shuffle(VERBS.filter(v=>!infs||infs.includes(v.inf))).slice(0,8).map(v=>[v.inf,v.en]);
+const HW7={id:'h7',title:'Homework 7 · my day (lesson 10)',zh:'',sub:'Lesson 10: утром, каждый день, завтракаю, встаю, иду or еду, в школе or в школу, what time. Take your time. About 40 minutes.',tasks:[
+  {t:'mcq',title:'What is it?',help:'Look at the picture and choose the Russian word.',gen:picGen(Pw(L10),10)},
+  {t:'mcq',title:'Listen and choose (words)',help:'Press the speaker, then choose the meaning.',gen:listenGen(Wd(L10),12)},
+  {t:'mcq',title:'How do you say it? (words)',gen:meanGen(Wd(L10),12)},
+  {t:'match',title:'Match the words',pairs:pairsOf(Wd(L10),8)},
+  {t:'mcq',title:'Every day, every week',help:'каждый, каждая, каждое: choose the right form.',gen:fixGen(HEVERY,5,'How do you say it in Russian?',30)},
+  {t:'mcq',title:'Parts of the day',gen:pdGen(8)},
+  {t:'mcq',title:'Breakfast, lunch, dinner: choose the verb form',help:'завтракать, обедать, ужинать',gen:conjGen(10,['завтракать','обедать','ужинать'])},
+  {t:'mcq',title:'Get up, go to bed: choose the verb form',help:'вставать, ложиться, спать',gen:conjGen(10,['вставать','ложиться','спать'])},
+  {t:'mcq',title:'Walk or go by transport?',help:'идти = on foot. ехать = by bus, car, train.',gen:fixGen(HIDTI,8,'Choose the right verb form.',26)},
+  {t:'mcq',title:'Where? or Where to?',help:'Где? → в школе. Куда? → в школу.',gen:fixGen(HWHTO,8,'Choose the right ending.',26)},
+  {t:'mcq',title:'What time?',help:'1 час · 2, 3, 4 часа · 5 and more часов.',gen:fixGen(HTIME,8,'Choose час, часа or часов.',28)},
+  {t:'mcq',title:'Listen and choose (sentences)',help:'Press the speaker, then choose the meaning.',gen:listenGen(Ph(L10),12)},
+  {t:'mcq',title:'How do you say it? (sentences)',gen:meanGen(Ph(L10),12)},
+  {t:'match',title:'Match the sentences',pairs:pairsOf(Ph(L10),8)},
+  {t:'build',title:'Build the sentence (1)',items:buildOf(L10,8)},
+  {t:'build',title:'Build the sentence (2)',items:buildOf(L10,8)},
+  chk(8,'Say your own day out loud: 8 sentences, like Mark. Tick a box for each sentence.')]};
+const HW8={id:'h8',title:'Homework 8 · age, family, tasty and all the verbs (lesson 11)',zh:'',sub:'Lesson 11: ему / ей … лет, в больнице, моего папу / мою маму, вкусный, всё or все, and the conjugation of every verb. A big one. About 50 minutes.',tasks:[
+  {t:'mcq',title:'What is it?',help:'Look at the picture and choose the Russian word.',gen:picGen(Pw(L11),8)},
+  {t:'mcq',title:'How old? Ему, ей, мне',help:'ему = he, ей = she, мне = I, нам = we, им = they.',gen:fixGen(HAGE,10,'Say it in Russian.',30,true)},
+  {t:'mcq',title:'Год, года or лет?',help:'1 год · 2, 3, 4 года · 5+ лет · 11–14 лет.',gen:fixGen(HYEAR,10,'Choose the right word.',34)},
+  {t:'mcq',title:'Where? в больнице',help:'Feminine -а → -е. Masculine + -е. -ия → -ии.',gen:fixGen(HWHERE,10,'Choose the right ending.',26)},
+  {t:'mcq',title:'Моего or мою?',help:'A boy or a girl? Then choose.',gen:fixGen(HOWN,10,'Choose the right word.',28)},
+  {t:'mcq',title:'Моего папу, мою маму: choose the ending',help:'брат → брата · папа → папу · сестра → сестру',gen:fixGen(HACC,12,'Choose the right ending.',26)},
+  {t:'mcq',title:'Tasty: boy, girl or thing?',gen:tsGen(6)},
+  {t:'mcq',title:'Всё or все?',help:'всё = everything (вкусное). все = all (вкусные).',gen:fixGen(HALLV,6,'Choose the right word.',26)},
+  {t:'mcq',title:'Verbs · -ать verbs',help:'работать, читать, играть, слушать, делать, знать, кушать, завтракать, обедать, ужинать',gen:conjGen(10,['работать','читать','играть','слушать','делать','знать','кушать','завтракать','обедать','ужинать'])},
+  {t:'mcq',title:'Verbs · -ить, -еть and mixed verbs',help:'любить, смотреть, говорить, готовить, ненавидеть, хотеть, ложиться, учиться',gen:conjGen(10,['любить','смотреть','говорить','готовить','ненавидеть','хотеть','ложиться','учиться'])},
+  {t:'mcq',title:'Verbs · irregular verbs',help:'есть, пить, спать, идти, ехать, мочь, жить, звать, вставать',gen:conjGen(12,['есть','пить','спать','идти','ехать','мочь','жить','звать','вставать'])},
+  {t:'mcq',title:'Listen and choose the verb form',help:'Press the speaker, then choose the form you heard.',gen:formListen(10)},
+  {t:'mcq',title:'What does the verb mean?',gen:verbMean(12)},
+  {t:'match',title:'Match the verbs (1)',pairs:verbPairs(['жить','работать','учиться','любить','играть','читать','слушать','смотреть','делать','знать','говорить','мочь'])},
+  {t:'match',title:'Match the verbs (2)',pairs:verbPairs(['хотеть','есть','пить','готовить','ненавидеть','кушать','завтракать','обедать','ужинать','вставать','ложиться','спать','идти','ехать','звать'])},
+  {t:'mcq',title:'Listen and choose (sentences)',help:'Press the speaker, then choose the meaning.',gen:listenGen(Ph(L11),10)},
+  {t:'mcq',title:'How do you say it? (sentences)',gen:meanGen(Ph(L11),10)},
+  {t:'build',title:'Build the sentence (1)',items:buildOf(L11,8)},
+  {t:'build',title:'Build the sentence (2)',items:buildOf(Lr(10,11),8)},
+  chk(8,'Say about your family: who is in it, how old they are, where they work. Open the Verbs tab and read 3 verbs out loud.')]};
 const HW=[
  {id:'h1',title:'Homework 1',zh:'',sub:'Lessons 1 and 2: greetings, names, numbers and age. About 15 minutes.',tasks:[
   {t:'mcq',title:'Listen and choose (1)',help:'Press the speaker, then choose the meaning.',gen:listenGen(Ph(L1),10)},
@@ -606,7 +711,7 @@ const HW=[
   {t:'match',title:'Match the sentences',pairs:pairsOf(Ph(L9),8)},
   {t:'build',title:'Build the sentence (1)',items:buildOf(L9,8)},
   {t:'build',title:'Build the sentence (2)',items:buildOf(L9,8)},]}
-];
+,HW7,HW8];
 function drawHw(){
  const hw=store.get('hw',{});
  hwView.style.display='none';hwList.style.display='';const lastI=HW.length-1;const ord=[lastI].concat(HW.map((h,i)=>i).filter(i=>i!=lastI));
